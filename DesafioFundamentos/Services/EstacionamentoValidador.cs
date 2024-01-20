@@ -164,8 +164,8 @@ namespace DesafioFundamentos.Services
 
         }
 
+        /*
         // --- WIP --- //
-        // FormaPagamento trocar pra Enum? //
         // FormaPagamento trocar pra Enum? //
 
         public void PodeRemoverVeiculo(Veiculo veiculo, Estacionamento estacionamento, string formaPagamento, decimal valorPago){
@@ -200,5 +200,7 @@ namespace DesafioFundamentos.Services
 
             // se valorPago não for decimal, faça tratamento
         }
+
+        */
     }
 }

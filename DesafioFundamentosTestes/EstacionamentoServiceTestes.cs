@@ -196,11 +196,53 @@ public class EstacionamentoServiceTestes
         Assert.Equal(resultadoEsperado, exception.Message);
     }
 
+    /*
     // -- INICIO WIP -- //
     // FAZER TESTES PARA REMOVER VEICULO APÓS VALIDAR METODO //
     // Devo implementar o método PodeRemoverVeiculo para validar parametros do método RemoverVeiculo? //
-    // -- FIM WIP -- //
+    
 
+    [Fact]
+    public void NaoRemoveVeiculoNulo()
+    {
+        string placa = "abc1234";
+        Veiculo veiculo = new Veiculo(placa);
+        _estacionamentoService.AdicionarVeiculo(veiculo);
+
+        _estacionamentoService.RemoverVeiculo(null, "1", 20m);
+
+        int resultadoEsperado = 0;
+        var resultado = _estacionamento.GetVagasOcupadas().Count;
+
+        Assert.Equal(resultadoEsperado, resultado);
+    }
+
+    [Fact]
+    public void DeveExibirVeiculoNaoPodeSerNuloQuandoUmVeiculoNuloForRemovidoDoEstacionamento()
+    {
+        var resultadoEsperado = "O veiculo não pode ser nulo.";
+        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.RemoverVeiculo(null, "Cartao", 20m));    
+
+        Assert.Equal(resultadoEsperado, exception.Message);        
+    }
+
+
+    // -- FIM WIP -- //
+    */
+    [Fact]
+    public void DeveExibir0QuandoUmVeiculoForRemovidoDoEstacionamento()
+    {
+        string placa = "abc1234";
+        Veiculo veiculo = new Veiculo(placa);
+        _estacionamentoService.AdicionarVeiculo(veiculo);
+
+        _estacionamentoService.RemoverVeiculo(veiculo, "Cartao", 20m);
+
+        int resultadoEsperado = 0;
+        var resultado = _estacionamento.GetVagasOcupadas().Count;
+
+        Assert.Equal(resultadoEsperado, resultado);
+    }
 
     [Fact]
     public void DeveExibirOVeiculoPlacaABC1234QuandoConsultarSeUmVeiculoDePlacaABC1234EstaEstacionado()
