@@ -19,7 +19,7 @@ namespace DesafioFundamentosTestes
         }
 
         [Fact]
-        public void PodeAdicionarVeiculo_DeveExibirEstacionamentoNaoPodeSerNuloQuandoVeiculoForNulo()
+        public void DeveExibirEstacionamentoNaoPodeSerNuloQuandoPodeAdicionarVeiculoReceberEstacionamentoNulo()
         {
             string placa = "abc1234";
             Veiculo veiculo = new Veiculo(placa);
@@ -32,7 +32,7 @@ namespace DesafioFundamentosTestes
         }
 
         [Fact]
-        public void PodeAdicionarVeiculo_DeveExibirVeiculoNaoPodeSerNuloQuandoVeiculoForNulo()
+        public void DeveExibirVeiculoNaoPodeSerNuloQuandoPodeAdicionarVeiculoReceberVeiculoForNulo()
         {
             var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoValidador.PodeAdicionarVeiculo(null, _estacionamento));
             
@@ -43,7 +43,7 @@ namespace DesafioFundamentosTestes
         
 
         [Fact]
-        public void PodeAdicionarVeiculo_DeveRetornarPlacaNulaOuVaziaQuandoForAdicionadoUmVeiculoComPlacaVaziaAListaDeVagasOcupadasDoEstacionamento()
+        public void DeveExibirPlacaNulaOuVaziaQuandoPodeAdicionarVeiculoReceberVeiculoComPlacaVazia()
         {
             string placa = "";
             Veiculo veiculo = new Veiculo(placa);
@@ -56,7 +56,7 @@ namespace DesafioFundamentosTestes
         }
 
         [Fact]
-        public void PodeAdicionarVeiculo_DeveRetornarPlacaNulaOuVaziaQuandoForAdicionadoUmVeiculoComPlacaNulaAListaDeVagasOcupadasDoEstacionamento()
+        public void DeveExibirPlacaNulaOuVaziaQuandoPodeAdicionarVeiculoReceberVeiculoComPlacaNula()
         {
             string placa = null;
             Veiculo veiculo = new Veiculo(placa);
@@ -69,9 +69,8 @@ namespace DesafioFundamentosTestes
         }
 
         [Fact]
-        public void PodeAdicionarVeiculo_DeveRetornarEstacionamentoEstLotado1QuandoForAdicionadoUmVeiculoAListaDeVagasOcupadasDoEstacionamento()
+        public void DeveExibirEstacionamentoEstaLotadoQuandoPodeAdicionarVeiculoReceberVeiculoEmEstacionamentoComVagasOcupadas()
         {
-            // Arrange
             int vagas = 1;
 
             Estacionamento _estacionamento = new Estacionamento(10, 2, vagas);
@@ -83,18 +82,16 @@ namespace DesafioFundamentosTestes
             _estacionamentoService.AdicionarVeiculo(veiculo1);
 
             string placa2 = "bcd1234";        
-            Veiculo veiculo2 = new Veiculo(placa2);            
+            Veiculo veiculo2 = new Veiculo(placa2);   
 
-            // Arrange
             var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoValidador.PodeAdicionarVeiculo(veiculo2, _estacionamento));
             string resultadoEsperado = "Estacionamento está lotado.";
-
-            // Asset
+            
             Assert.Equal(resultadoEsperado, exception.Message);
         }
 
         [Fact]
-        public void PodeAdicionarVeiculo_DeveRetornarPlacaInvalidaQuandoForAdicionadoUmVeiculoComPlacaNulaAListaDeVagasOcupadasDoEstacionamento()
+        public void DeveExibirPlacaInvalidaQuandoPodeAdicionarVeiculoReceberVeiculoComPlacaABC()
         {
             string placa1 = "ABC";        
             Veiculo veiculo1 = new Veiculo(placa1);
@@ -107,7 +104,7 @@ namespace DesafioFundamentosTestes
         }
 
         [Fact]
-        public void AdicionarVeiculo_DeveRetornarVeiculoJaEstacionadoQuandoForAdicionadoUmVeiculoComPlacaNulaAListaDeVagasOcupadasDoEstacionamento()
+        public void DeveExibirVeiculoJaEstacionadoQuandoPodeAdicionarVeiculoReceberVeiculoPreviamenteAdicionado()
         {
             string placa1 = "ABC1234";
             Veiculo veiculo = new Veiculo(placa1);
@@ -121,16 +118,23 @@ namespace DesafioFundamentosTestes
         }
         
         [Fact]
-        public void PlacaNulaOuVazia_DeveRetornarPlacaNulaOuVaziaQuandoForAdicionadaUmaPlacaVazia()
+        public void DeveExibirTrueQuandoPlacaForVazia()
         {
             string placa = "";
-            Veiculo veiculo = new Veiculo(placa);
 
             Assert.True(_estacionamentoValidador.PlacaNulaOuVazia(placa));
         }
 
         [Fact]
-        public void EstacionamentoEstaLotado_DeveRetornarTrueSeEstacionamentoEstiverLotado()
+        public void DeveExibirTrueQuandoPlacaForNula()
+        {
+            string placa = null;
+
+            Assert.True(_estacionamentoValidador.PlacaNulaOuVazia(placa));
+        }
+
+        [Fact]
+        public void DeveExibirTrueQuandoEstacionamentoEstiverLotado()
         {
             int vagas = 1;
 
@@ -148,7 +152,7 @@ namespace DesafioFundamentosTestes
         }        
 
         [Fact]
-        public void EstacionamentoEstaLotado_DeveRetornarFalseSeEstacionamentoNãoEstiverLotado()
+        public void DeveExibirTrueQuandoEstacionamentoNaoEstiverLotado()
         {
             var resultado = _estacionamentoValidador.EstacionamentoEstaLotado(_estacionamento);
 
@@ -156,18 +160,15 @@ namespace DesafioFundamentosTestes
         }
 
         [Fact]
-        public void EstacionamentoEstaLotado_DeveRetornarFalseSeEstacionamentoForNull()
+        public void DeveExibirTrueQuandoEstacionamentoForNulo()
         {
             var resultado = _estacionamentoValidador.EstacionamentoEstaLotado(null);
 
             Assert.False(resultado);
-        }
-
-        // // FAZER ESTE CASO DE TESTE:
-        // MÉTODO: ContarVeiculosEstacionados 
+        } 
 
         [Fact]
-        public void ContarVeiculosEstacionados_DeveRetornarUmQuandoHouverUmVeiculoEstacionado(){
+        public void DeveExibirUmQuandoContarVeiculosEstacionados(){
             string placa = "ABC1234";        
             Veiculo veiculo = new Veiculo(placa);
             _estacionamentoService.AdicionarVeiculo(veiculo);
@@ -180,7 +181,7 @@ namespace DesafioFundamentosTestes
         }
 
         [Fact]
-        public void ContarVeiculosEstacionados_DeveExibirEstacionamentoNaoPodeSerNuloQuandoVeiculoForNulo()
+        public void DeveExibirEstacionamentoNaoPodeSerNuloQuandoContarVeiculosEstacionadosTiverEstacionamentoNulo()
         {
             var exception = Assert.Throws<EstacionamentoInvalidoException>(() => _estacionamentoValidador.ContarVeiculosEstacionados(null));
             
