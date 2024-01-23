@@ -23,6 +23,6 @@ namespace DesafioFundamentos.Services
 
         public List<Transacao> ListarTodas(){
             return transacaoRepository.ListarTodas();
-        }       
+        }      
     }
 }

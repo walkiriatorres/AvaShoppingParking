@@ -17,13 +17,16 @@ namespace DesafioFundamentos.Repositories
             return Instancia;
         }
 
+        public void SetTransacoes(List<Transacao> transacoes) {
+            this.Transacoes = transacoes;
+        }
+
         public void Salvar(Transacao transacao){
 
             Transacoes.Add(transacao);
         }
-
         public List<Transacao> ListarTodas(){
-            return Transacoes;
+            return new List<Transacao>(Transacoes);
         }
     }
 }
