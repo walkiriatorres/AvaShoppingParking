@@ -1,7 +1,8 @@
 using DesafioFundamentos.Exceptions;
 using DesafioFundamentos.Models;
 using DesafioFundamentos.Services;
-namespace DesafioFundamentosTestes;
+
+namespace DesafioFundamentosTestes.Services;
 
 public class EstacionamentoServiceTestes
 {
@@ -122,20 +123,20 @@ public class EstacionamentoServiceTestes
     }
 
     [Fact]
-    public void DeveExibir15SeOveiculoFicarAcimaDe60MinutosEstacionado()
+    public void DeveExibir15DeValoPagamentoSeOveiculoFicarMaisDe60MinutosEstacionado()
     {
         string placa = "ABC1234";        
         Veiculo veiculo = new Veiculo(placa);
         _estacionamentoService.AdicionarVeiculo(veiculo);
 
-        DateTime dataHoraSimuladaSaida = DateTime.Now.AddMinutes(60);
-        veiculo.SetSaida(dataHoraSimuladaSaida);
+        DateTime dataHoraSimuladaEntrada = DateTime.Now.Subtract(TimeSpan.FromMinutes(60));
+        veiculo.SetEntrada(dataHoraSimuladaEntrada);
 
         decimal resultadoEsperado = 15;        
         var resultado = _estacionamentoService.ConsultarValorPagamento(veiculo); 
         
         Assert.Equal(resultadoEsperado, resultado);
-    }
+    }    
 
     [Fact]
     public void DeveExibirVeiculoNaoPodeSerNuloQuandoConsultarValorPagamentoDeVeiculoNulo()
@@ -196,20 +197,14 @@ public class EstacionamentoServiceTestes
         Assert.Equal(resultadoEsperado, exception.Message);
     }
 
-    /*
-    // -- INICIO WIP -- //
-    // FAZER TESTES PARA REMOVER VEICULO APÓS VALIDAR METODO //
-    // Devo implementar o método PodeRemoverVeiculo para validar parametros do método RemoverVeiculo? //
-    
-
     [Fact]
-    public void NaoRemoveVeiculoNulo()
+    public void DeveExibir0QuandoTentarRemoverVeiculoDeEstacionamento()
     {
         string placa = "abc1234";
         Veiculo veiculo = new Veiculo(placa);
         _estacionamentoService.AdicionarVeiculo(veiculo);
 
-        _estacionamentoService.RemoverVeiculo(null, "1", 20m);
+        _estacionamentoService.RemoverVeiculo(veiculo, (FormaPagamento)1, 20m, _estacionamento);
 
         int resultadoEsperado = 0;
         var resultado = _estacionamento.GetVagasOcupadas().Count;
@@ -221,22 +216,19 @@ public class EstacionamentoServiceTestes
     public void DeveExibirVeiculoNaoPodeSerNuloQuandoUmVeiculoNuloForRemovidoDoEstacionamento()
     {
         var resultadoEsperado = "O veiculo não pode ser nulo.";
-        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.RemoverVeiculo(null, "Cartao", 20m));    
+        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.RemoverVeiculo(null, (FormaPagamento)1, 20m, _estacionamento));    
 
         Assert.Equal(resultadoEsperado, exception.Message);        
     }
 
-
-    // -- FIM WIP -- //
-    */
     [Fact]
-    public void DeveExibir0QuandoUmVeiculoForRemovidoDoEstacionamento()
+    public void DeveExibir0QuandoContarVeiculosEstacionadosAposUmVeiculoForRemovidoDoEstacionamento()
     {
         string placa = "abc1234";
         Veiculo veiculo = new Veiculo(placa);
         _estacionamentoService.AdicionarVeiculo(veiculo);
 
-        _estacionamentoService.RemoverVeiculo(veiculo, (FormaPagamento)1, 20m);
+        _estacionamentoService.RemoverVeiculo(veiculo, (FormaPagamento)1, 20m, _estacionamento);
 
         int resultadoEsperado = 0;
         var resultado = _estacionamento.GetVagasOcupadas().Count;
@@ -350,12 +342,16 @@ public class EstacionamentoServiceTestes
     }
 
     [Fact]
-    public void DeveExibir20QuandoTempoEstacionadoFor2horas30minutos()
+    public void DeveExibirOPrecoInicialQuandoTempoEstacionadoFor50Minutos()
     {
-        TimeSpan intervaloDeTempo = new TimeSpan(2, 30, 0);
+        string placa = "ABC1234";
+        Veiculo veiculo = new Veiculo(placa);
+        DateTime saida = DateTime.Now.AddMinutes(180);
+        veiculo.SetSaida(saida);
 
-        var resultadoEsperado = 20;
-        var resultado = _estacionamentoService.CalcularValorPagamentoMinutos(intervaloDeTempo);
+        var resultadoEsperado = _estacionamento.GetPrecoInicial();
+
+        var resultado = _estacionamentoService.CalcularValorPagamentoMinutos(veiculo);
 
         Assert.Equal(resultadoEsperado, resultado);               
     }

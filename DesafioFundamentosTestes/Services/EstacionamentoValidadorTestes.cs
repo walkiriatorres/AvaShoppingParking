@@ -2,7 +2,7 @@ using DesafioFundamentos.Exceptions;
 using DesafioFundamentos.Models;
 using DesafioFundamentos.Services;
 
-namespace DesafioFundamentosTestes
+namespace DesafioFundamentosTestes.Services
 {
     public class EstacionamentoValidadorTestes
     {
@@ -114,56 +114,6 @@ namespace DesafioFundamentosTestes
             string resultadoEsperado = "Veiculo já está estacionado.";
 
             Assert.Equal(resultadoEsperado, exception.Message);
-        }
-        
-        [Fact]
-        public void DeveExibirTrueQuandoPlacaForVazia()
-        {
-            string placa = "";
-
-            Assert.True(_estacionamentoValidador.PlacaNulaOuVazia(placa));
-        }
-
-        [Fact]
-        public void DeveExibirTrueQuandoPlacaForNula()
-        {
-            string placa = null;
-
-            Assert.True(_estacionamentoValidador.PlacaNulaOuVazia(placa));
-        }
-
-        [Fact]
-        public void DeveExibirTrueQuandoEstacionamentoEstiverLotado()
-        {
-            int vagas = 1;
-
-            Estacionamento _estacionamento = new Estacionamento(10, 2, vagas);
-            EstacionamentoService _estacionamentoService = new EstacionamentoService(_estacionamento);
-            EstacionamentoValidador _estacionamentoValidador = new EstacionamentoValidador();
-
-            string placa = "ABC1234";        
-            Veiculo veiculo = new Veiculo(placa);
-            _estacionamentoService.AdicionarVeiculo(veiculo);
-
-            var resultado = _estacionamentoValidador.EstacionamentoEstaLotado(_estacionamento);
-
-            Assert.True(resultado);
-        }        
-
-        [Fact]
-        public void DeveExibirTrueQuandoEstacionamentoNaoEstiverLotado()
-        {
-            var resultado = _estacionamentoValidador.EstacionamentoEstaLotado(_estacionamento);
-
-            Assert.False(resultado);
-        }
-
-        [Fact]
-        public void DeveExibirTrueQuandoEstacionamentoForNulo()
-        {
-            var resultado = _estacionamentoValidador.EstacionamentoEstaLotado(null);
-
-            Assert.False(resultado);
         } 
 
         [Fact]

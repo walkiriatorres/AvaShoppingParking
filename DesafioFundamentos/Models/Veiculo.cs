@@ -20,6 +20,11 @@ namespace DesafioFundamentos.Models
             return this.Entrada;
         }
 
+        public void SetEntrada(DateTime entrada)
+        {
+            this.Entrada = entrada;
+        }
+
         public DateTime GetSaida(){
             return this.Saida;
         }
@@ -31,20 +36,16 @@ namespace DesafioFundamentos.Models
 
         public override bool Equals(object obj)
         {
-            // Verifica se o objeto fornecido é nulo ou não é do tipo Veiculo
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }
-
-            // Converte o objeto para Veiculo
+            
             Veiculo outroVeiculo = (Veiculo)obj;
-
-            // Compara as placas dos veículos
+            
             return this.Placa == outroVeiculo.Placa;
-        }        
-
-        // Se você sobrescrever Equals, é uma boa prática sobrescrever GetHashCode também
+        }
+        
         public override int GetHashCode()
         {
             return this.Placa.GetHashCode();

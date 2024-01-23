@@ -32,5 +32,22 @@ namespace DesafioFundamentos.Models
         public DateTime GetHoraPagamento(){
             return HoraPagamento;
         }
+        
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Transacao other = (Transacao)obj;
+
+            return Id.Equals(other.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }

@@ -40,36 +40,23 @@ namespace DesafioFundamentos.Services
             }
         }
 
-        public bool PlacaNulaOuVazia(string placa) {
+        private bool PlacaNulaOuVazia(string placa) {
             if(string.IsNullOrEmpty(placa))
             {
-                throw new PlacaInvalidaException("Placa nula ou vazia.");
                 return true;
             }
 
             return false;
         }
 
-        public bool EstacionamentoEstaLotado(Estacionamento estacionamento)
+        private bool EstacionamentoEstaLotado(Estacionamento estacionamento)
         {            
             if(estacionamento == null)
             {
-                throw new EstacionamentoInvalidoException("O estacionamento não pode ser nulo.");
                 return false;
             }
 
             return ContarVeiculosEstacionados(estacionamento) == estacionamento.GetTotalDeVagas();
-        }
-
-        public bool EstacionamentoEstaVazio(Estacionamento estacionamento)
-        {            
-            if(estacionamento == null)
-            {
-                throw new EstacionamentoInvalidoException("O estacionamento não pode ser nulo.");
-                return false;                
-            }
-
-            return estacionamento.GetVagasOcupadas().Count == 0;
         }
 
         public int ContarVeiculosEstacionados(Estacionamento estacionamento)
@@ -174,11 +161,6 @@ namespace DesafioFundamentos.Services
             if (estacionamento == null)
             {
                 throw new EstacionamentoInvalidoException("O estacionamento não pode ser nulo.");
-            }
-
-            if (formaPagamento == null)
-            {
-                throw new FormaPagamentoInvalidaException("Forma de pagamento não pode ser nula ou valor padrão.");
             }
 
             if(PlacaNulaOuVazia(veiculo.GetPlaca()))

@@ -9,7 +9,7 @@ namespace DesafioFundamentos.Repositories
         
         public List<Transacao> Transacoes;
 
-        public TransacaoRepository(){
+        private TransacaoRepository(){
             this.Transacoes = new List<Transacao>();
         }
 

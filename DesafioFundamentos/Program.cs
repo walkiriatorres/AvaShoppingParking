@@ -139,18 +139,13 @@ static void ConsultarValorAPagar(Estacionamento es)
         {
             Console.WriteLine($"Veiculo placa: {placa} não encontrado.");
             return;
-        }
-
-        DateTime dataHoraAtual = DateTime.Now;
-        DateTime dataHoraSimuladaSaida = dataHoraAtual.AddMinutes(new Random().Next(0,10080));
-
-        veiculo.SetSaida(dataHoraSimuladaSaida);            
+        }          
 
         decimal valorAPagar = estacionamentoService.ConsultarValorPagamento(veiculo);
 
                         
         Console.Write($"Entrada: {veiculo.GetEntrada()} ");                
-        Console.Write($"Saida: {dataHoraSimuladaSaida} ");        
+        Console.Write($"Saida: {veiculo.GetSaida()} ");        
         Console.WriteLine($"Preço a pagar é R$: {valorAPagar}.");
 
     }
@@ -178,11 +173,6 @@ static void RemoverVeiculo(Estacionamento es)
             Console.WriteLine($"Veiculo placa: {placa} não encontrado.");
             return;
         }
-
-        DateTime dataHoraAtual = DateTime.Now;
-        DateTime dataHoraSimuladaSaida = dataHoraAtual.AddMinutes(new Random().Next(0, 10080));
-
-        veiculo.SetSaida(dataHoraSimuladaSaida);
 
         decimal valorAPagar = estacionamentoService.ConsultarValorPagamento(veiculo);
 
@@ -252,11 +242,9 @@ static FormaPagamento ExibirMenuPagamento(){
         return formaPagamento;
     }
     else
-    {
-        // Se a conversão falhar, exibe uma mensagem de erro e retorna um valor padrão ou lança uma exceção, dependendo do que for mais apropriado para o seu caso.
-        Console.WriteLine("Opção inválida. Usando Cartão de Débito como padrão.");
-        return FormaPagamento.CartaoDeDebito; // Ou retorne outro valor padrão ou lance uma exceção.
+    {        
+        throw new FormaPagamentoInvalidaException("Forma de pagamento inválida");
     }
 }
 
-Console.WriteLine("O programa se encerrou");
+Console.WriteLine("O programa se encerrou");          

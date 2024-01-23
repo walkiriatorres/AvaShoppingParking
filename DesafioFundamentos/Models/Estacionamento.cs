@@ -32,17 +32,13 @@ namespace DesafioFundamentos.Models
 
         public override bool Equals(object obj)
         {
-            // Verifica se o objeto fornecido é nulo ou não é do tipo Estacionamento
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }
-
-            // Converte o objeto para Estacionamento
+            
             Estacionamento OutroEstacionamento = (Estacionamento)obj;
 
-            // Compara os estacionamentos
-            
             return PrecoInicial == OutroEstacionamento.PrecoInicial &&
                     PrecoPorHora == OutroEstacionamento.PrecoPorHora &&
                     TotalDeVagas == OutroEstacionamento.TotalDeVagas &&
