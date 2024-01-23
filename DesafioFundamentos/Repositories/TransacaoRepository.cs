@@ -22,7 +22,6 @@ namespace DesafioFundamentos.Repositories
         }
 
         public void Salvar(Transacao transacao){
-
             Transacoes.Add(transacao);
         }
         public List<Transacao> ListarTodas(){
