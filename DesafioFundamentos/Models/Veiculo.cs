@@ -38,10 +38,10 @@ namespace DesafioFundamentos.Models
             }
 
             // Converte o objeto para Veiculo
-            Veiculo otherVeiculo = (Veiculo)obj;
+            Veiculo outroVeiculo = (Veiculo)obj;
 
             // Compara as placas dos veículos
-            return this.Placa == otherVeiculo.Placa;
+            return this.Placa == outroVeiculo.Placa;
         }        
 
         // Se você sobrescrever Equals, é uma boa prática sobrescrever GetHashCode também

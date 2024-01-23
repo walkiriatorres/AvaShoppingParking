@@ -6,6 +6,7 @@ namespace DesafioFundamentos.Repositories
     public class TransacaoRepository
     {
         private static TransacaoRepository Instancia = new TransacaoRepository();
+        
         public List<Transacao> Transacoes;
 
         public TransacaoRepository(){
@@ -24,6 +25,5 @@ namespace DesafioFundamentos.Repositories
         public List<Transacao> ListarTodas(){
             return Transacoes;
         }
-
     }
 }

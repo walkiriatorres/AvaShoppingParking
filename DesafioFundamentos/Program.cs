@@ -152,7 +152,7 @@ static void ConsultarValorAPagar(Estacionamento es)
 
         veiculo.SetSaida(dataHoraSimuladaSaida);            
 
-        decimal valorAPagar = estacionamentoService.ValorPagamento(veiculo);
+        decimal valorAPagar = estacionamentoService.ConsultarValorPagamento(veiculo);
 
                         
         Console.Write($"Entrada: {veiculo.GetEntrada()} ");                
@@ -186,11 +186,11 @@ static void RemoverVeiculo(Estacionamento es)
 
         veiculo.SetSaida(dataHoraSimuladaSaida);
 
-        decimal valorAPagar = estacionamentoService.ValorPagamento(veiculo);
+        decimal valorAPagar = estacionamentoService.ConsultarValorPagamento(veiculo);
 
         Console.WriteLine($"Preço a pagar é R$: {valorAPagar}.");
 
-        string formaPagamento = ExibirMenuPagamento();
+        FormaPagamento formaPagamento = ExibirMenuPagamento();
 
         estacionamentoService.RemoverVeiculo(veiculo, formaPagamento, valorAPagar);
 
@@ -241,14 +241,24 @@ static void ExibirListaDeTransacoes(){
     }    
 }
 
-static string ExibirMenuPagamento(){
+static FormaPagamento ExibirMenuPagamento(){
     Console.WriteLine("Informe o método de pagamento:");
     Console.WriteLine("1 - Cartão de Débito");
     Console.WriteLine("2 - Cartão de Crédito");
     Console.WriteLine("3 - Dinheiro");
     Console.WriteLine("4 - Pix");
 
-    return Console.ReadLine();
+    string opcaoPagamento = Console.ReadLine();
+    if (Enum.TryParse(opcaoPagamento, out FormaPagamento formaPagamento))
+    {
+        return formaPagamento;
+    }
+    else
+    {
+        // Se a conversão falhar, exibe uma mensagem de erro e retorna um valor padrão ou lança uma exceção, dependendo do que for mais apropriado para o seu caso.
+        Console.WriteLine("Opção inválida. Usando Cartão de Débito como padrão.");
+        return FormaPagamento.CartaoDeDebito; // Ou retorne outro valor padrão ou lance uma exceção.
+    }
 }
 
 Console.WriteLine("O programa se encerrou");

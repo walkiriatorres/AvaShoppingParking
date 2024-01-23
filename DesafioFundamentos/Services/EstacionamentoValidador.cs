@@ -43,6 +43,7 @@ namespace DesafioFundamentos.Services
         public bool PlacaNulaOuVazia(string placa) {
             if(string.IsNullOrEmpty(placa))
             {
+                throw new PlacaInvalidaException("Placa nula ou vazia.");
                 return true;
             }
 
@@ -53,6 +54,7 @@ namespace DesafioFundamentos.Services
         {            
             if(estacionamento == null)
             {
+                throw new EstacionamentoInvalidoException("O estacionamento não pode ser nulo.");
                 return false;
             }
 
@@ -63,6 +65,7 @@ namespace DesafioFundamentos.Services
         {            
             if(estacionamento == null)
             {
+                throw new EstacionamentoInvalidoException("O estacionamento não pode ser nulo.");
                 return false;                
             }
 

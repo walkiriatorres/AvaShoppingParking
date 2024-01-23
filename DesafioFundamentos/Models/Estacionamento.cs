@@ -39,18 +39,16 @@ namespace DesafioFundamentos.Models
             }
 
             // Converte o objeto para Estacionamento
-            Estacionamento otherEstacionamento = (Estacionamento)obj;
+            Estacionamento OutroEstacionamento = (Estacionamento)obj;
 
             // Compara os estacionamentos
             
-            return PrecoInicial == otherEstacionamento.PrecoInicial &&
-                    PrecoPorHora == otherEstacionamento.PrecoPorHora &&
-                    TotalDeVagas == otherEstacionamento.TotalDeVagas &&
-                    VagasOcupadas.SequenceEqual(otherEstacionamento.VagasOcupadas);
+            return PrecoInicial == OutroEstacionamento.PrecoInicial &&
+                    PrecoPorHora == OutroEstacionamento.PrecoPorHora &&
+                    TotalDeVagas == OutroEstacionamento.TotalDeVagas &&
+                    VagasOcupadas.SequenceEqual(OutroEstacionamento.VagasOcupadas);
+        }       
 
-        }        
-
-        // Sobrescrever GetHashCode, boa prática por ter sobrescrito Equals
         public override int GetHashCode()
         {
             return HashCode.Combine(PrecoInicial, PrecoPorHora, TotalDeVagas, VagasOcupadas);

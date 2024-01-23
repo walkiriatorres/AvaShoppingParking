@@ -27,7 +27,7 @@ namespace DesafioFundamentos.Services
             Estacionamento.GetVagasOcupadas().Add(veiculo);                                  
         }
 
-        public decimal ValorPagamento (Veiculo veiculo) {
+        public decimal ConsultarValorPagamento (Veiculo veiculo) {
             EstacionamentoValidador.PodeConsultarValor(veiculo, Estacionamento);
 
             TimeSpan tempoEstacionado = veiculo.GetSaida() - veiculo.GetEntrada();
@@ -37,10 +37,11 @@ namespace DesafioFundamentos.Services
         }
 
         // -- INICIO WIP -- //
-        public void RemoverVeiculo(Veiculo veiculo, string formaPagamento, decimal valorPago){
+        public void RemoverVeiculo(Veiculo veiculo, FormaPagamento formaPagamento, decimal valorAPagar){
             // Implementar Método que valida parametros fornecidos e consulta se veiculo está estacionado
-            //EstacionamentoValidador.PodeRemoverVeiculo(veiculo, formaPagamento, valorPago, Estacionamento);
-            TransacaoService.Criar(veiculo, valorPago, formaPagamento);
+            // EstacionamentoValidador.PodeRemoverVeiculo(veiculo, formaPagamento, valorAPagar, Estacionamento);
+            // Setar o datetime.now para veiculo.SetSaida(DateTime.Now);
+            TransacaoService.Criar(veiculo, valorAPagar, formaPagamento);
             Estacionamento.GetVagasOcupadas().Remove(veiculo);            
         }
         // -- FIM WIP -- //

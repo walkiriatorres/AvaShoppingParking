@@ -4,11 +4,11 @@ namespace DesafioFundamentos.Models
     {
         public Guid Id { get; set; }
         public Veiculo Veiculo { get; set; }
-        public string FormaPagamento { get; set; }
+        public FormaPagamento FormaPagamento { get; set; }
         public decimal ValorPagamento { get; set; }
         public DateTime HoraPagamento { get; set; }
         
-        public Transacao(Guid id, Veiculo veiculo, string formaPagamento, decimal valorPagamento, DateTime horaPagamento)
+        public Transacao(Guid id, Veiculo veiculo, FormaPagamento formaPagamento, decimal valorPagamento, DateTime horaPagamento)
         {
             this.Id = id;
             this.Veiculo = veiculo;
@@ -23,7 +23,7 @@ namespace DesafioFundamentos.Models
         public Veiculo GetVeiculo(){
             return Veiculo;
         }
-        public string GetFormaPagamento(){
+        public FormaPagamento GetFormaPagamento(){
             return FormaPagamento;
         }
         public decimal GetValorPagamento(){
@@ -32,6 +32,5 @@ namespace DesafioFundamentos.Models
         public DateTime GetHoraPagamento(){
             return HoraPagamento;
         }
-
     }
 }

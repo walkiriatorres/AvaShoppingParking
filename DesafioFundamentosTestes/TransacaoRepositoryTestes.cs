@@ -10,7 +10,6 @@ namespace DesafioFundamentosTestes
 {
     public class TransacaoRepositoryTestes
     {
-
         private Transacao _transacao;
         private Veiculo _veiculo;
 
@@ -18,7 +17,7 @@ namespace DesafioFundamentosTestes
         public TransacaoRepositoryTestes()
         {
             _veiculo = new Veiculo("ABC1234");
-            _transacao = new Transacao(Guid.NewGuid(), _veiculo, "1", 10, DateTime.Now);
+            _transacao = new Transacao(Guid.NewGuid(), _veiculo, (FormaPagamento)1, 10, DateTime.Now);
             _transacaoRepository = new TransacaoRepository();
         }
 
@@ -49,9 +48,9 @@ namespace DesafioFundamentosTestes
         [Fact]
         public void DeveExibirUmaListaQueContemTransacao1Transacao2Transacao3QuandoEstasTransacoesForemCriadas()
         {
-            Transacao transacao1 = new Transacao(Guid.NewGuid(), _veiculo, "1", 10, DateTime.Now);
-            Transacao transacao2 = new Transacao(Guid.NewGuid(), _veiculo, "2", 50, DateTime.Now);
-            Transacao transacao3 = new Transacao(Guid.NewGuid(), _veiculo, "1", 100, DateTime.Now);
+            Transacao transacao1 = new Transacao(Guid.NewGuid(), _veiculo, (FormaPagamento)1, 10, DateTime.Now);
+            Transacao transacao2 = new Transacao(Guid.NewGuid(), _veiculo, (FormaPagamento)2, 50, DateTime.Now);
+            Transacao transacao3 = new Transacao(Guid.NewGuid(), _veiculo, (FormaPagamento)1, 100, DateTime.Now);
 
             var resultadoEsperado = new List<Transacao>{transacao1, transacao2, transacao3};
 

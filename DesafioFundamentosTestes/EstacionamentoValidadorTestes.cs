@@ -39,8 +39,7 @@ namespace DesafioFundamentosTestes
             string resultadoEsperado = "O veiculo não pode ser nulo.";
 
             Assert.Equal(resultadoEsperado, exception.Message);            
-        }
-        
+        }        
 
         [Fact]
         public void DeveExibirPlacaNulaOuVaziaQuandoPodeAdicionarVeiculoReceberVeiculoComPlacaVazia()

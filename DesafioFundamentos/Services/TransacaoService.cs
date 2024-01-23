@@ -14,7 +14,7 @@ namespace DesafioFundamentos.Services
         public TransacaoService(){
             this.transacaoRepository = TransacaoRepository.GetInstancia();
         } 
-        public Transacao Criar(Veiculo veiculo, decimal valorPagamento, string formaPagamento){
+        public Transacao Criar(Veiculo veiculo, decimal valorPagamento, FormaPagamento formaPagamento){
             Transacao transacao = new Transacao(Guid.NewGuid(), veiculo, formaPagamento, valorPagamento, DateTime.Now);
             transacaoRepository.Salvar(transacao);
         
