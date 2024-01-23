@@ -111,7 +111,6 @@ namespace DesafioFundamentos.Services
             return estacionamento.GetVagasOcupadas().Any(x => x.GetPlaca().ToUpper() == veiculo.GetPlaca().ToUpper());            
         }
 
-        // criar exceções corretas:
         public void PodeConsultarValor(Veiculo veiculo, Estacionamento estacionamento){
             if (veiculo == null)
             {
@@ -164,14 +163,9 @@ namespace DesafioFundamentos.Services
             {
                 throw new VeiculoInvalidoException("Veiculo não está estacionado.");
             }
-
         }
 
-        /*
-        // --- WIP --- //
-        // FormaPagamento trocar pra Enum? //
-
-        public void PodeRemoverVeiculo(Veiculo veiculo, Estacionamento estacionamento, string formaPagamento, decimal valorPago){
+        public void PodeRemoverVeiculo(Veiculo veiculo, FormaPagamento formaPagamento, decimal valorPago, Estacionamento estacionamento){
             if (veiculo == null)
             {
                 throw new VeiculoInvalidoException("O veiculo não pode ser nulo.");
@@ -180,6 +174,11 @@ namespace DesafioFundamentos.Services
             if (estacionamento == null)
             {
                 throw new EstacionamentoInvalidoException("O estacionamento não pode ser nulo.");
+            }
+
+            if (formaPagamento == null)
+            {
+                throw new FormaPagamentoInvalidaException("Forma de pagamento não pode ser nula ou valor padrão.");
             }
 
             if(PlacaNulaOuVazia(veiculo.GetPlaca()))
@@ -197,13 +196,10 @@ namespace DesafioFundamentos.Services
                 throw new VeiculoInvalidoException("Veiculo não está estacionado.");
             }
 
-            if(string.IsNullOrEmpty(formaPagamento)){
-                throw new VeiculoInvalidoException("Forma de pagamento inválida");
+            if (!Enum.IsDefined(typeof(FormaPagamento), formaPagamento) || formaPagamento == default(FormaPagamento))
+            {
+                throw new FormaPagamentoInvalidaException("Forma de pagamento inválida.");
             }
-
-            // se valorPago não for decimal, faça tratamento
-        }
-
-        */
+        }        
     }
 }

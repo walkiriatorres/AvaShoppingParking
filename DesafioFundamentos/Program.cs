@@ -125,16 +125,10 @@ static void ConsultarValorAPagar(Estacionamento es)
 {
     try
     {
-        /* Console.WriteLine($"O total de vagas disponiveis é: {es.GetTotalDeVagas() - es.GetVagasOcupadas().Count}");
-
-        EstacionamentoValidador estacionamentoValidador = new EstacionamentoValidador();
-        estacionamentoValidador.EstacionamentoEstaVazio(es);
-       
         if (es.GetVagasOcupadas().Count == 0) {
             Console.WriteLine("Estacionamento esta vazio");
             return;
-        }
-        */
+        }   
 
         string placa = CapturarPlaca();
         
@@ -169,7 +163,11 @@ static void ConsultarValorAPagar(Estacionamento es)
 static void RemoverVeiculo(Estacionamento es)
 {
     try
-    {
+    {        
+        if (es.GetVagasOcupadas().Count == 0) {
+            Console.WriteLine("Estacionamento esta vazio");
+            return;
+        } 
         
         string placa = CapturarPlaca();
         EstacionamentoService estacionamentoService = new EstacionamentoService(es);
@@ -192,7 +190,7 @@ static void RemoverVeiculo(Estacionamento es)
 
         FormaPagamento formaPagamento = ExibirMenuPagamento();
 
-        estacionamentoService.RemoverVeiculo(veiculo, formaPagamento, valorAPagar);
+        estacionamentoService.RemoverVeiculo(veiculo, formaPagamento, valorAPagar, es);
 
         Console.WriteLine("Veiculo Removido com Sucesso");
 

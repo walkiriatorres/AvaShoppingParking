@@ -37,9 +37,8 @@ namespace DesafioFundamentos.Services
         }
 
         // -- INICIO WIP -- //
-        public void RemoverVeiculo(Veiculo veiculo, FormaPagamento formaPagamento, decimal valorAPagar){
-            // Implementar Método que valida parametros fornecidos e consulta se veiculo está estacionado
-            // EstacionamentoValidador.PodeRemoverVeiculo(veiculo, formaPagamento, valorAPagar, Estacionamento);
+        public void RemoverVeiculo(Veiculo veiculo, FormaPagamento formaPagamento, decimal valorAPagar, Estacionamento estacionamento){
+            EstacionamentoValidador.PodeRemoverVeiculo(veiculo, formaPagamento, valorAPagar, estacionamento);
             // Setar o datetime.now para veiculo.SetSaida(DateTime.Now);
             TransacaoService.Criar(veiculo, valorAPagar, formaPagamento);
             Estacionamento.GetVagasOcupadas().Remove(veiculo);            
