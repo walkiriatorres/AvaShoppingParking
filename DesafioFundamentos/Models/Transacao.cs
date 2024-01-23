@@ -2,11 +2,11 @@ namespace DesafioFundamentos.Models
 {
     public class Transacao
     {
-        public Guid Id { get; set; }
-        public Veiculo Veiculo { get; set; }
-        public FormaPagamento FormaPagamento { get; set; }
-        public decimal ValorPagamento { get; set; }
-        public DateTime HoraPagamento { get; set; }
+        private Guid Id { get; set; }
+        private Veiculo Veiculo { get; set; }
+        private FormaPagamento FormaPagamento { get; set; }
+        private decimal ValorPagamento { get; set; }
+        private DateTime HoraPagamento { get; set; }
         
         public Transacao(Guid id, Veiculo veiculo, FormaPagamento formaPagamento, decimal valorPagamento, DateTime horaPagamento)
         {

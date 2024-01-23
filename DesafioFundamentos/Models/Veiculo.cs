@@ -2,9 +2,9 @@ namespace DesafioFundamentos.Models
 {
     public class Veiculo
     {
-        public string Placa { get; set; }
-        public DateTime Entrada { get; set; }
-        public DateTime Saida { get; set; }
+        private string Placa { get; set; }
+        private DateTime Entrada { get; set; }
+        private DateTime Saida { get; set; }
 
         public Veiculo(string placa)
         {

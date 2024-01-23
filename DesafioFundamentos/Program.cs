@@ -224,7 +224,7 @@ static void ExibirListaDeTransacoes(){
         Console.WriteLine("As transações realizadas foram:");
         foreach (Transacao t in ListaDeTransacao)
         {
-            Console.WriteLine($"Id: {t.GetId()} - Placa: {t.Veiculo.GetPlaca()} - Forma Pagamento: {t.GetFormaPagamento()} - Valor Pago R$: {t.GetValorPagamento()} - Data e Hora do Pagamento: {t.GetHoraPagamento()}");
+            Console.WriteLine($"Id: {t.GetId()} - Placa: {t.GetVeiculo().GetPlaca()} - Forma Pagamento: {t.GetFormaPagamento()} - Valor Pago R$: {t.GetValorPagamento()} - Data e Hora do Pagamento: {t.GetHoraPagamento()}");
         }
     }    
 }
