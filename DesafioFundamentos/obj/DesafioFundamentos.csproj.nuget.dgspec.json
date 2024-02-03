@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\walki\\dev\\AvaParkEstacionamento\\DesafioFundamentos\\DesafioFundamentos.csproj": {}
+    "C:\\Users\\walki\\dev\\AvaParkShoppingEstacionamento\\DesafioFundamentos\\DesafioFundamentos.csproj": {}
   },
   "projects": {
-    "C:\\Users\\walki\\dev\\AvaParkEstacionamento\\DesafioFundamentos\\DesafioFundamentos.csproj": {
+    "C:\\Users\\walki\\dev\\AvaParkShoppingEstacionamento\\DesafioFundamentos\\DesafioFundamentos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\walki\\dev\\AvaParkEstacionamento\\DesafioFundamentos\\DesafioFundamentos.csproj",
+        "projectUniqueName": "C:\\Users\\walki\\dev\\AvaParkShoppingEstacionamento\\DesafioFundamentos\\DesafioFundamentos.csproj",
         "projectName": "DesafioFundamentos",
-        "projectPath": "C:\\Users\\walki\\dev\\AvaParkEstacionamento\\DesafioFundamentos\\DesafioFundamentos.csproj",
+        "projectPath": "C:\\Users\\walki\\dev\\AvaParkShoppingEstacionamento\\DesafioFundamentos\\DesafioFundamentos.csproj",
         "packagesPath": "C:\\Users\\walki\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\walki\\dev\\AvaParkEstacionamento\\DesafioFundamentos\\obj\\",
+        "outputPath": "C:\\Users\\walki\\dev\\AvaParkShoppingEstacionamento\\DesafioFundamentos\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\walki\\AppData\\Roaming\\NuGet\\NuGet.Config"

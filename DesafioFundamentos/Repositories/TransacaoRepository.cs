@@ -1,5 +1,6 @@
 using DesafioFundamentos.Exceptions;
-using DesafioFundamentos.Models;
+using DesafioFundamentos.Models.Classes;
+using DesafioFundamentos.Models.Enums;
 
 namespace DesafioFundamentos.Repositories
 {
@@ -7,7 +8,7 @@ namespace DesafioFundamentos.Repositories
     {
         private static TransacaoRepository Instancia = new TransacaoRepository();
         
-        public List<Transacao> Transacoes;
+        private List<Transacao> Transacoes;
 
         private TransacaoRepository(){
             this.Transacoes = new List<Transacao>();
@@ -16,16 +17,13 @@ namespace DesafioFundamentos.Repositories
         public static TransacaoRepository GetInstancia(){
             return Instancia;
         }
-
-        public void SetTransacoes(List<Transacao> transacoes) {
-            this.Transacoes = transacoes;
-        }
+        
+        public List<Transacao> GetTransacoes(){
+            return Transacoes;
+        }       
 
         public void Salvar(Transacao transacao){
             Transacoes.Add(transacao);
-        }
-        public List<Transacao> ListarTodas(){
-            return new List<Transacao>(Transacoes);
         }
     }
 }

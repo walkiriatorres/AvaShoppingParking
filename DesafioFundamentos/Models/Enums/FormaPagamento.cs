@@ -1,4 +1,4 @@
-namespace DesafioFundamentos.Models
+namespace DesafioFundamentos.Models.Enums
 {
     public enum FormaPagamento
     {

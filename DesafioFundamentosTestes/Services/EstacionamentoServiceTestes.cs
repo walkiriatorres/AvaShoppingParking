@@ -1,5 +1,6 @@
 using DesafioFundamentos.Exceptions;
-using DesafioFundamentos.Models;
+using DesafioFundamentos.Models.Classes;
+using DesafioFundamentos.Models.Enum;
 using DesafioFundamentos.Services;
 
 namespace DesafioFundamentosTestes.Services;
@@ -20,7 +21,7 @@ public class EstacionamentoServiceTestes
         Estacionamento _estacionamento = new Estacionamento(10, 5, 5);
         EstacionamentoService _estacionamentoService = new EstacionamentoService(_estacionamento);
         
-        Estacionamento resultado = _estacionamentoService.ExibirEstacionamento();
+        Estacionamento resultado = _estacionamentoService.GetEstacionamento();
         var resultadoEsperado = new Estacionamento(10, 5, 5);
         
         Assert.Equal(resultadoEsperado, resultado);
@@ -55,7 +56,7 @@ public class EstacionamentoServiceTestes
         Veiculo veiculo = new Veiculo(placa);
 
         string resultadoEsperado = "Placa nula ou vazia não pode ser estacionada.";
-        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.AdicionarVeiculo(veiculo));        
+        var exception = Assert.Throws<PlacaInvalidaException>(() => _estacionamentoService.AdicionarVeiculo(veiculo));        
 
         Assert.Equal(resultadoEsperado, exception.Message);
     }
@@ -67,7 +68,7 @@ public class EstacionamentoServiceTestes
         Veiculo veiculo = new Veiculo(placa);
 
         string resultadoEsperado = "Placa nula ou vazia não pode ser estacionada.";
-        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.AdicionarVeiculo(veiculo)); 
+        var exception = Assert.Throws<PlacaInvalidaException>(() => _estacionamentoService.AdicionarVeiculo(veiculo)); 
 
         Assert.Equal(resultadoEsperado, exception.Message);
     }
@@ -79,7 +80,7 @@ public class EstacionamentoServiceTestes
         Veiculo veiculo = new Veiculo(placa);
 
         string resultadoEsperado = "Placa inválida.";
-        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.AdicionarVeiculo(veiculo));        
+        var exception = Assert.Throws<PlacaInvalidaException>(() => _estacionamentoService.AdicionarVeiculo(veiculo));        
 
         Assert.Equal(resultadoEsperado, exception.Message);
     }
@@ -121,22 +122,6 @@ public class EstacionamentoServiceTestes
         
         Assert.Equal(resultadoEsperado, exception.Message);
     }
-
-    [Fact]
-    public void DeveExibir15DeValoPagamentoSeOveiculoFicarMaisDe60MinutosEstacionado()
-    {
-        string placa = "ABC1234";        
-        Veiculo veiculo = new Veiculo(placa);
-        _estacionamentoService.AdicionarVeiculo(veiculo);
-
-        DateTime dataHoraSimuladaEntrada = DateTime.Now.Subtract(TimeSpan.FromMinutes(60));
-        veiculo.SetEntrada(dataHoraSimuladaEntrada);
-
-        decimal resultadoEsperado = 15;        
-        var resultado = _estacionamentoService.ConsultarValorPagamento(veiculo); 
-        
-        Assert.Equal(resultadoEsperado, resultado);
-    }    
 
     [Fact]
     public void DeveExibirVeiculoNaoPodeSerNuloQuandoConsultarValorPagamentoDeVeiculoNulo()
@@ -198,13 +183,158 @@ public class EstacionamentoServiceTestes
     }
 
     [Fact]
+    public void DeveExibir15QuandoConsultarValorPagamentoDeVeiculoEstacionadoHa60Minutos()
+    {
+        string placa = "abc1234";
+        Veiculo veiculo = new Veiculo(placa);
+        _estacionamentoService.AdicionarVeiculo(veiculo);
+        veiculo.SetEntrada(DateTime.Now.AddMinutes(-60));
+        veiculo.SetLimiteSaida(DateTime.Now);
+
+        decimal resultadoEsperado = 15M;        
+        var resultado = _estacionamentoService.ConsultarValorPagamento(veiculo);    
+
+        Assert.Equal(resultadoEsperado, resultado);
+    }
+
+    [Fact]
+    public void DeveExibir15QuandoConsultarValorPagamentoDeVeiculoEstacionadoHa20Minutos()
+    {
+        string placa = "abc1234";
+        Veiculo veiculo = new Veiculo(placa);
+        _estacionamentoService.AdicionarVeiculo(veiculo);
+        veiculo.SetEntrada(DateTime.Now.AddMinutes(-20));
+
+        decimal resultadoEsperado = 0M;        
+        var resultado = _estacionamentoService.ConsultarValorPagamento(veiculo);    
+
+        Assert.Equal(resultadoEsperado, resultado);
+    }  
+
+    [Fact]
+    public void DeveExibirVeiculoNaoPodeSerNuloAoRealizarPagamentoQuandoVeiculoForNulo()
+    {            
+        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.RealizarPagamento(null, 10M, FormaPagamento.CartaoDeCredito));
+        
+        string resultadoEsperado = "O veiculo não pode ser nulo.";
+
+        Assert.Equal(resultadoEsperado, exception.Message);            
+    }
+
+    [Fact]
+    public void DeveExibirPlacaNulaOuVaziaAoRealizarPagamentoQuandoPlacaForNula()
+    {
+        Veiculo veiculo = new Veiculo(null);
+        
+        var exception = Assert.Throws<PlacaInvalidaException>(() => _estacionamentoService.RealizarPagamento(veiculo, 10M, FormaPagamento.CartaoDeCredito));
+        
+        string resultadoEsperado = "Placa nula ou vazia não pode ser estacionada.";
+
+        Assert.Equal(resultadoEsperado, exception.Message);            
+    }        
+
+    [Fact]
+    public void DeveExibirPlacaNulaOuVaziaAoRealizarPagamentoQuandoPlacaForVazia()
+    {
+        string placa = "";
+        Veiculo veiculo = new Veiculo(placa);
+        
+        var exception = Assert.Throws<PlacaInvalidaException>(() => _estacionamentoService.RealizarPagamento(veiculo, 10M, FormaPagamento.CartaoDeCredito));
+        
+        string resultadoEsperado = "Placa nula ou vazia não pode ser estacionada.";
+
+        Assert.Equal(resultadoEsperado, exception.Message);            
+    }
+
+    [Fact]
+    public void DeveExibirPlacaInvalidaAoRealizarPagamentoQuandoPlacaForInvalida()
+    {
+        string placa = "Ab1";
+        Veiculo veiculo = new Veiculo(placa);
+        
+        var exception = Assert.Throws<PlacaInvalidaException>(() => _estacionamentoService.RealizarPagamento(veiculo, 10M, FormaPagamento.CartaoDeCredito));
+        
+        string resultadoEsperado = "Placa inválida.";
+
+        Assert.Equal(resultadoEsperado, exception.Message);            
+    }
+
+    [Fact]
+    public void DeveExibirNaoHaValorAPagarAoRealizarPagamentoQuandoValorAPagarForZero()
+    {
+        string placa = "abc1234";
+        Veiculo veiculo = new Veiculo(placa);
+        decimal valorAPagar = 0M;
+        
+        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.RealizarPagamento(veiculo, valorAPagar, FormaPagamento.CartaoDeCredito));
+        
+        string resultadoEsperado = "Não há valor a pagar.";
+
+        Assert.Equal(resultadoEsperado, exception.Message);            
+    }
+
+    [Fact]
+    public void DeveExibir1TransacaoQuandoRealizarPagamentode1Veiculo()
+    {
+        TransacaoService _transacaoService = new TransacaoService();            
+        string placa = "abc1234";
+        Veiculo veiculo = new Veiculo(placa);
+        decimal valorAPagar = 15M;
+        var resultadoEsperado = 1;
+
+        _estacionamentoService.RealizarPagamento(veiculo, valorAPagar, FormaPagamento.CartaoDeCredito);
+        var resultado = _transacaoService.ListarTodas().Count;
+
+        Assert.Equal(resultadoEsperado, resultado);
+        
+        _transacaoService.GetTransacaoRepository().GetTransacoes().Clear();            
+    }
+    
+    [Fact]
+    public void DeveExibirOTotalPagoPeloVeiculoAtualizadoAoRealizarPagamento()
+    {
+        TransacaoService _transacaoService = new TransacaoService();            
+        string placa = "abc1234";
+        Veiculo veiculo = new Veiculo(placa);
+        decimal valorAPagar = 15M;
+        decimal totalPago = veiculo.GetTotalPago();
+        decimal resultadoEsperado = valorAPagar + totalPago;
+
+        _estacionamentoService.RealizarPagamento(veiculo, valorAPagar, FormaPagamento.CartaoDeCredito);
+        decimal resultado = veiculo.GetTotalPago();
+
+        Assert.Equal(resultadoEsperado, resultado);
+
+        _transacaoService.GetTransacaoRepository().GetTransacoes().Clear();         
+    }
+
+    [Fact]
+    public void DeveExibirUmLimiteDeSaidaAtualizadoEm2HorasAMaisDaEntradaQuandoRealizarPagamentoDe2HorasDeEstacionamento()
+    {
+        TransacaoService _transacaoService = new TransacaoService();
+
+        string placa = "abc1234";
+        Veiculo veiculo = new Veiculo(placa);
+        veiculo.SetEntrada(DateTime.Now.AddMinutes(-90));
+        decimal valorAPagarPorDuasHorasEstacionado = 15M;
+        DateTime resultadoEsperado = veiculo.GetEntrada().AddHours(2);
+
+        _estacionamentoService.RealizarPagamento(veiculo, valorAPagarPorDuasHorasEstacionado, FormaPagamento.CartaoDeCredito);
+        DateTime resultado = veiculo.GetLimiteSaida();
+
+        Assert.Equal(resultadoEsperado, resultado);
+
+        _transacaoService.GetTransacaoRepository().GetTransacoes().Clear();         
+    }
+
+    [Fact]
     public void DeveExibir0QuandoTentarRemoverVeiculoDeEstacionamento()
     {
         string placa = "abc1234";
         Veiculo veiculo = new Veiculo(placa);
         _estacionamentoService.AdicionarVeiculo(veiculo);
 
-        _estacionamentoService.RemoverVeiculo(veiculo, (FormaPagamento)1, 20m, _estacionamento);
+        _estacionamentoService.RemoverVeiculo(veiculo);
 
         int resultadoEsperado = 0;
         var resultado = _estacionamento.GetVagasOcupadas().Count;
@@ -216,24 +346,56 @@ public class EstacionamentoServiceTestes
     public void DeveExibirVeiculoNaoPodeSerNuloQuandoUmVeiculoNuloForRemovidoDoEstacionamento()
     {
         var resultadoEsperado = "O veiculo não pode ser nulo.";
-        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.RemoverVeiculo(null, (FormaPagamento)1, 20m, _estacionamento));    
+        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.RemoverVeiculo(null));    
 
         Assert.Equal(resultadoEsperado, exception.Message);        
     }
 
     [Fact]
-    public void DeveExibir0QuandoContarVeiculosEstacionadosAposUmVeiculoForRemovidoDoEstacionamento()
+    public void DeveExibirVeiculoNaoEstaEstacionadoQuandoUmVeiculoNuloForRemovidoDoEstacionamento()
     {
         string placa = "abc1234";
-        Veiculo veiculo = new Veiculo(placa);
-        _estacionamentoService.AdicionarVeiculo(veiculo);
+        Veiculo veiculo = new Veiculo(placa);        
+        var resultadoEsperado = "Veiculo não está estacionado.";
 
-        _estacionamentoService.RemoverVeiculo(veiculo, (FormaPagamento)1, 20m, _estacionamento);
+        var exception = Assert.Throws<VeiculoInvalidoException>(() => _estacionamentoService.RemoverVeiculo(veiculo));    
 
-        int resultadoEsperado = 0;
-        var resultado = _estacionamento.GetVagasOcupadas().Count;
+        Assert.Equal(resultadoEsperado, exception.Message);        
+    }
 
-        Assert.Equal(resultadoEsperado, resultado);
+    [Fact]
+    public void DeveExibirPlacaNulaOUVaziaQuandoRemoverVeiculoComPlacaVazia()
+    {
+        string placa = "";
+        Veiculo veiculo = new Veiculo(placa);        
+        var resultadoEsperado = "Placa nula ou vazia não pode ser estacionada.";
+
+        var exception = Assert.Throws<PlacaInvalidaException>(() => _estacionamentoService.RemoverVeiculo(veiculo));    
+
+        Assert.Equal(resultadoEsperado, exception.Message);        
+    }
+
+    [Fact]
+    public void DeveExibirPlacaNulaOUVaziaQuandoRemoverVeiculoComPlacaNula()
+    {
+        Veiculo veiculo = new Veiculo(null);        
+        var resultadoEsperado = "Placa nula ou vazia não pode ser estacionada.";
+
+        var exception = Assert.Throws<PlacaInvalidaException>(() => _estacionamentoService.RemoverVeiculo(veiculo));    
+
+        Assert.Equal(resultadoEsperado, exception.Message);        
+    }
+
+    [Fact]
+    public void DeveExibirPlacaInvalidaQuandoRemoverVeiculoComPlacaABC()
+    {
+        string placa = "abc";
+        Veiculo veiculo = new Veiculo(placa);        
+        var resultadoEsperado = "Placa inválida.";
+
+        var exception = Assert.Throws<PlacaInvalidaException>(() => _estacionamentoService.RemoverVeiculo(veiculo));    
+
+        Assert.Equal(resultadoEsperado, exception.Message);        
     }
 
     [Fact]
@@ -324,35 +486,30 @@ public class EstacionamentoServiceTestes
     }
 
     [Fact]
-    public void DeveExibirUmaListaQueContemVeiculo1EVeiculo2QuandoEstesVeiculosForemEstacionados()
+    public void DeveExibirUmaListaQueContemVeiculo1EVeiculo2AoListarTodosQuandoEstesVeiculosForemEstacionados()
     {
         string placa1 = "abc1234";
         Veiculo veiculo1 = new Veiculo(placa1);
         string placa2 = "bcd2345";
         Veiculo veiculo2 = new Veiculo(placa2);
 
-        List<Veiculo> VeiculosEstacionados = new List<Veiculo> {veiculo1, veiculo2};
+        List<Veiculo> resultadoEsperado = new List<Veiculo> {veiculo1, veiculo2};
 
         _estacionamentoService.AdicionarVeiculo(veiculo1);
         _estacionamentoService.AdicionarVeiculo(veiculo2);
 
-        var resultado = _estacionamentoService.ListarTodos();
+        List<Veiculo> resultado = _estacionamentoService.ListarTodos();
 
-        Assert.Equal(VeiculosEstacionados, resultado);        
+        Assert.Equal(resultadoEsperado, resultado);        
     }
 
     [Fact]
-    public void DeveExibirOPrecoInicialQuandoTempoEstacionadoFor50Minutos()
+    public void DeveExibirUmaListaVaziaAoListarTodosQuandoNãoTiverVeiculoEstacionado()
     {
-        string placa = "ABC1234";
-        Veiculo veiculo = new Veiculo(placa);
-        DateTime saida = DateTime.Now.AddMinutes(180);
-        veiculo.SetSaida(saida);
+        List<Veiculo> resultadoEsperado = new List<Veiculo> ();
 
-        var resultadoEsperado = _estacionamento.GetPrecoInicial();
+        List<Veiculo> resultado = _estacionamentoService.ListarTodos();
 
-        var resultado = _estacionamentoService.CalcularValorPagamentoMinutos(veiculo);
-
-        Assert.Equal(resultadoEsperado, resultado);               
+        Assert.Equal(resultadoEsperado, resultado);
     }
 }

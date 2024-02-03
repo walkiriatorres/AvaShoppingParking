@@ -1,4 +1,4 @@
-namespace DesafioFundamentos.Models
+namespace DesafioFundamentos.Models.Classes
 {
     public class Estacionamento
     {
@@ -21,7 +21,7 @@ namespace DesafioFundamentos.Models
         public decimal GetPrecoPorHora() {
             return this.PrecoPorHora;
         }
-
+        
         public int GetTotalDeVagas() {
             return this.TotalDeVagas;
         }
@@ -29,7 +29,7 @@ namespace DesafioFundamentos.Models
         public List<Veiculo> GetVagasOcupadas() {
             return this.VagasOcupadas;
         }
-
+         
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
@@ -48,6 +48,6 @@ namespace DesafioFundamentos.Models
         public override int GetHashCode()
         {
             return HashCode.Combine(PrecoInicial, PrecoPorHora, TotalDeVagas, VagasOcupadas);
-        }      
+        }   
     }
 }

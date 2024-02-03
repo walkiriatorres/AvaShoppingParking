@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "s+K16zAxCYajpOtk5NZsaRLdEizcf9oHsNdLh+w9ENcqEl3TkbGdEZ+f/cfDOA0IIi1qv8MLHnLGljeu3I+QWg==",
+  "dgSpecHash": "VMBQzbDyI+9cotl0tLPMdhAktmfEmpknua9gA7C0gwOPfJ4wASiInW/qtCjMR1jQWgTfgcRwxhU6uD5DtdJIKA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\walki\\dev\\AvaParkEstacionamento\\DesafioFundamentosTestes\\DesafioFundamentosTestes.csproj",
+  "projectFilePath": "C:\\Users\\walki\\dev\\AvaParkShoppingEstacionamento\\DesafioFundamentosTestes\\DesafioFundamentosTestes.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\walki\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\walki\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",
