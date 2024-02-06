@@ -134,16 +134,53 @@ namespace DesafioFundamentos.Services
         public string PodeConsultarTransacaoDaPlaca(string placa) {
             if(PlacaNulaOuVazia(placa))
             {
-                throw new VeiculoInvalidoException("Placa nula ou vazia.");
+                throw new PlacaInvalidaException("Placa nula ou vazia.");
             }
 
             if(!PlacaEhValida(placa))
             {
-                throw new VeiculoInvalidoException("Placa inválida.");
+                throw new PlacaInvalidaException("Placa inválida.");
             }
 
             if(!TransacaoRepository.GetInstancia().GetTransacoes().Any(t => t.GetVeiculo().GetPlaca().ToUpper() == placa.ToUpper())){
-                throw new VeiculoInvalidoException($"Placa: {placa} não realizou transação");
+                throw new PlacaInvalidaException($"Placa: {placa} não realizou transação");
+            }
+
+            return "Autorizado";
+        }
+
+        public string PodeConsultarTransacaoDoDia(string data) {
+            DateTime dataInformada;
+
+            if (!DateTime.TryParse(data, out dataInformada))
+            {
+                throw new TransacaoInvalidaException ("Formato de data inválido. Certifique-se de usar o formato DD/MM/AAAA.");
+            }
+
+            if (dataInformada > DateTime.Now)
+            {
+                throw new TransacaoInvalidaException("A data não pode ser maior do que a data atual.");
+            }
+
+            return "Autorizado";
+        }
+        
+        public string PodeConsultarTransacaoDoPeriodo(string dataInicio, string dataFim) {
+            DateTime inicio, fim;
+
+            if (!DateTime.TryParse(dataInicio, out inicio) || !DateTime.TryParse(dataFim, out fim))
+            {
+                throw new TransacaoInvalidaException ("Formato de data inválido. Certifique-se de usar o formato DD/MM/AAAA.");
+            }
+
+            if (inicio > DateTime.Now)
+            {
+                throw new TransacaoInvalidaException("A data de início não pode ser maior do que a data atual.");
+            }
+            
+            if (inicio.CompareTo(fim) > 0)
+            {
+                throw new TransacaoInvalidaException("A data de início não pode ser maior do que a data de fim.");
             }
 
             return "Autorizado";

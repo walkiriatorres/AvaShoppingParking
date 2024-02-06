@@ -8,11 +8,7 @@ namespace DesafioFundamentos.Models.Enums
         Pagar = 4,
         RemoverVeiculo = 5,
         ExibirVeiculosEstacionados = 6,
-        ExibirTransacoes = 7,
-        ExibirTransacaoPorData = 8,   
-        ExibirFaturamentoTotal = 9,
-        ExibirFaturamentoPorData = 10,
-        Encerrar = 100,
-        ExibirTransacaoPorPlaca = 105
+        ExibirMenuGerencial = 7,        
+        Encerrar = 100
     }
 }

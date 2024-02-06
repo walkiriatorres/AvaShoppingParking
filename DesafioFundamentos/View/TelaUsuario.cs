@@ -45,12 +45,8 @@ namespace DesafioFundamentos.View
                 Console.WriteLine("4 - Pagar");
                 Console.WriteLine("5 - Remover veículo");
                 Console.WriteLine("6 - Listar veículos");
-                Console.WriteLine("7 - Listar Transacoes");
-                Console.WriteLine("8 - Listar Transacoes Por Data");
-                Console.WriteLine("9 - Consultar Faturamento Acumulado");
-                Console.WriteLine("10 - Consultar Faturamento Por Data");
+                Console.WriteLine("7 - Menu Gerencial");
                 Console.WriteLine("100 - Encerrar");
-                Console.WriteLine("105 - Listar Transacoes Por Placa");
 
                 if (Enum.TryParse(Console.ReadLine(), out OpcaoMenuPrincipal opcao))
                 {
@@ -74,28 +70,16 @@ namespace DesafioFundamentos.View
                         case OpcaoMenuPrincipal.ExibirVeiculosEstacionados:
                             ExibirVeiculosEstacionados(es);
                             break;
-                        case OpcaoMenuPrincipal.ExibirTransacoes:
-                            ExibirTransacoes();
-                            break;
-                        case OpcaoMenuPrincipal.ExibirTransacaoPorData:
-                            ExibirTransacaoPorData();
-                            break;
-                        case OpcaoMenuPrincipal.ExibirFaturamentoTotal:
-                            ExibirFaturamentoTotal();
-                            break;
-                        case OpcaoMenuPrincipal.ExibirFaturamentoPorData:
-                            ExibirFaturamentoPorData();
-                            break;                        
                         case OpcaoMenuPrincipal.Encerrar:
                             ExibirMenuConfirmacaoEncerramento();
-                            break;                        
-                        case OpcaoMenuPrincipal.ExibirTransacaoPorPlaca:
-                            ListarTransacoesPorPlaca();
+                            break;
+                        case OpcaoMenuPrincipal.ExibirMenuGerencial:
+                            ExibirMenuGerencial();
                             break;                        
                         default:
                             Console.Clear();
                             Console.WriteLine("Opção inválida");
-                            break;                                                    
+                            break;                                                   
                     }
                 }
                 else
@@ -118,7 +102,7 @@ namespace DesafioFundamentos.View
                 Console.Clear();
                 Console.WriteLine("Deseja encerrar o programa?");
                 Console.WriteLine("1 - Encerrar Programa");
-                Console.WriteLine("2 - Voltar ao Menu Principal");
+                Console.WriteLine("2 - Voltar ao Menu Anterior");
 
                 if (Enum.TryParse(Console.ReadLine(), out OpcaoMenuConfirmacaoEncerramento opcao))
                 {
@@ -128,7 +112,7 @@ namespace DesafioFundamentos.View
                         Console.WriteLine("O programa se encerrou");
                             Environment.Exit(0);
                             break;
-                        case OpcaoMenuConfirmacaoEncerramento.RetornarMenuPrincipal:
+                        case OpcaoMenuConfirmacaoEncerramento.RetornarMenu:
                             opcaoConfirmacao = false;
                             break;
                         default:
@@ -139,6 +123,74 @@ namespace DesafioFundamentos.View
             }
         }
 
+        public void ExibirMenuGerencial()
+        {
+            bool opcaoConfirmacao = true;
+            while (opcaoConfirmacao)
+            {
+                Console.Clear();
+                Console.WriteLine("MENU GERENCIAL");
+                Console.WriteLine("1 - Listar Transacoes");
+                Console.WriteLine("2 - Listar Transacoes Por Data");                
+                Console.WriteLine("3 - Listar Transacoes Por Periodo");
+                Console.WriteLine("4 - Listar Transacoes Por Placa");
+                Console.WriteLine("5 - Consultar Faturamento Total");
+                Console.WriteLine("6 - Consultar Faturamento Por Data");                
+                Console.WriteLine("7 - Consultar Faturamento Por Periodo");
+                Console.WriteLine("8 - Voltar ao Menu Principal");
+                Console.WriteLine("100 - Encerrar");
+
+                if (Enum.TryParse(Console.ReadLine(), out OpcaoMenuGerencial opcao))
+                {
+                    switch (opcao)
+                    {
+                        case OpcaoMenuGerencial.ExibirTransacoes:
+                            ExibirTransacoes();
+                            break;
+                        case OpcaoMenuGerencial.ExibirTransacaoPorData:
+                            ExibirTransacaoPorData();
+                            break;
+                        case OpcaoMenuGerencial.ExibirTransacaoPorPeriodo:
+                            ListarTransacaoPorPeriodo();
+                            break;
+                        case OpcaoMenuGerencial.ExibirTransacaoPorPlaca:
+                            ListarTransacoesPorPlaca();
+                            break;
+                        case OpcaoMenuGerencial.ExibirFaturamentoTotal:
+                            ExibirFaturamentoTotal();
+                            break;
+                        case OpcaoMenuGerencial.ExibirFaturamentoPorData:
+                            ExibirFaturamentoPorData();
+                            break;
+                        case OpcaoMenuGerencial.ExibirFaturamentoPorPeriodo:
+                            ExibirFaturamentoPorPeriodo();
+                            break;
+
+                            
+
+                        case OpcaoMenuGerencial.RetornarMenuPrincipal:
+                            opcaoConfirmacao = false;
+                            break;
+                        case OpcaoMenuGerencial.EncerrarPrograma:
+                            ExibirMenuConfirmacaoEncerramento();
+                            break;             
+                        default:
+                            Console.Clear();
+                            Console.WriteLine("Opção inválida");
+                            break;                                                   
+                    }
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Opção inválida");
+                }
+                
+                Console.WriteLine();
+                Console.Write("Pressione ENTER para voltar ao MENU ...");
+                Console.ReadLine();                
+            }
+        }
         public string CapturarPlaca()
         {
             Console.WriteLine("Digite a placa do veículo: ");
@@ -359,20 +411,25 @@ namespace DesafioFundamentos.View
 
         public void ExibirTransacaoPorData()
         {
-            TransacaoService transacaoService = new TransacaoService();
+            try
+            {
+                TransacaoService transacaoService = new TransacaoService();
             
-            if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
-            {
-                Console.WriteLine("Até o momento não foram realizadas transações.");
-                return;
-            }
+                if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
+                {
+                    Console.WriteLine("Até o momento não foram realizadas transações.");
+                    return;
+                }
 
-            Console.WriteLine("Digite a data desejada, use o formato DD/MM/AAAA: ");
-            string data = Console.ReadLine();
-
-            if (DateTime.TryParse(data, out DateTime dataInformada))
-            {
+                Console.WriteLine("Digite a data desejada, use o formato DD/MM/AAAA: ");
+                string data = Console.ReadLine();
+                
                 List<Transacao> ListaDeTransacao = transacaoService.ListarTransacaoPorData(data);
+
+                if(ListaEstaNulaOuVazia(ListaDeTransacao)){
+                    Console.WriteLine($"Não houve transação em: {data}");
+                    return;
+                }
 
                 Console.WriteLine($"As transações realizadas em {data} foram:");
                 foreach (Transacao t in ListaDeTransacao)
@@ -380,9 +437,45 @@ namespace DesafioFundamentos.View
                     Console.WriteLine($"\nId: {t.GetId()} \nPlaca: {t.GetVeiculo().GetPlaca()} \nForma Pagamento: {t.GetFormaPagamento()} \nValor Pago R$: {t.GetValorPagamento()} \nData e Hora do Pagamento: {t.GetHoraPagamento()}");
                 }                
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Formato de data inválido. Certifique-se de usar o formato DD/MM/AAAA.");
+                Console.WriteLine(ex.Message);
+            }            
+        }
+
+        public void ListarTransacaoPorPeriodo() {
+            try
+            {
+                TransacaoService transacaoService = new TransacaoService();
+            
+                if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
+                {
+                    Console.WriteLine("Até o momento não foram realizadas transações.");
+                    return;
+                }
+
+                Console.WriteLine("Digite a data inicial, use o formato DD/MM/AAAA: ");
+                string dataInicio = Console.ReadLine();
+                Console.WriteLine("Digite a data final, use o formato DD/MM/AAAA: ");
+                string dataFim = Console.ReadLine();
+                
+                List<Transacao> ListaDeTransacao = transacaoService.ListarTransacaoPorPeriodo(dataInicio, dataFim);
+                int quantidadeDeTransacoes = ListaDeTransacao.Count();
+
+                if(ListaEstaNulaOuVazia(ListaDeTransacao)){
+                    Console.WriteLine($"Não houveram transações no período: {dataInicio} - {dataFim}");
+                    return;
+                }
+
+                Console.WriteLine($"As {quantidadeDeTransacoes} transações realizadas em {dataInicio} - {dataFim} foram:");
+                foreach (Transacao t in ListaDeTransacao)
+                {
+                    Console.WriteLine($"\nId: {t.GetId()} \nPlaca: {t.GetVeiculo().GetPlaca()} \nForma Pagamento: {t.GetFormaPagamento()} \nValor Pago R$: {t.GetValorPagamento()} \nData e Hora do Pagamento: {t.GetHoraPagamento()}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -425,32 +518,57 @@ namespace DesafioFundamentos.View
             }            
             
             decimal faturamentoTotal = transacaoService.ConsultarFaturamentoAcumulado();
-
-            Console.WriteLine($"O faturamento acumulado é: {faturamentoTotal}");
+            
+            Console.WriteLine($"O faturamento total é: {faturamentoTotal}");            
         }
 
         public void ExibirFaturamentoPorData()
         {   
-            TransacaoService transacaoService = new TransacaoService();
-
-            if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
+            try
             {
-                Console.WriteLine("Até o momento não foram realizadas transações.");
-                return;
-            }
+                TransacaoService transacaoService = new TransacaoService();
 
-            Console.WriteLine("Digite a data desejada, use o formato DD/MM/AAAA: ");
-            string data = Console.ReadLine();
+                if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
+                {
+                    Console.WriteLine("Até o momento não foram realizadas transações.");
+                    return;
+                }
 
-            if (DateTime.TryParse(data, out DateTime dataInformada))
-            {
+                Console.WriteLine("Digite a data desejada, use o formato DD/MM/AAAA: ");
+                string data = Console.ReadLine();
+                
                 decimal faturamentoDoDia = transacaoService.ConsultarFaturamentoPorData(data);
-                Console.WriteLine($"O faturamento do dia: {data} é de R$: {faturamentoDoDia}");
+                Console.WriteLine($"O faturamento do dia: {data} foi de R$: {faturamentoDoDia}");                
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Formato de data inválido. Certifique-se de usar o formato DD/MM/AAAA.");
+                Console.WriteLine(ex.Message);
+            }            
+        }
+
+        public void ExibirFaturamentoPorPeriodo() {
+            try
+            {
+                TransacaoService transacaoService = new TransacaoService();
+
+                if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
+                {
+                    Console.WriteLine("Até o momento não foram realizadas transações.");
+                    return;
+                }
+
+                Console.WriteLine("Digite a data inicial, use o formato DD/MM/AAAA: ");
+                string dataInicio = Console.ReadLine();
+                Console.WriteLine("Digite a data final, use o formato DD/MM/AAAA: ");
+                string dataFim = Console.ReadLine();
+                
+                decimal faturamentoDoDia = transacaoService.ConsultarFaturamentoPorPeriodo(dataInicio, dataFim);
+                Console.WriteLine($"O faturamento realizado em {dataInicio} - {dataFim} foi de R$: {faturamentoDoDia}");
             }
-        }     
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }    
     }
 }

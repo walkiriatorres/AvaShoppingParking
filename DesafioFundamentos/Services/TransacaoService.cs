@@ -35,13 +35,35 @@ namespace DesafioFundamentos.Services
         public List<Transacao> ListarTransacaoPorData(string data){
             
             List<Transacao> ListaDeTransacao = ListarTodas();
+            string statusAutorizacao = ValidadorService.PodeConsultarTransacaoDoDia(data);
 
-            if (DateTime.TryParse(data, out DateTime dataInformada)){
-                List<Transacao> transacoesDaData = ListaDeTransacao.Where(t => t.GetHoraPagamento().Date == dataInformada.Date).ToList();
-                return transacoesDaData;
+            if (statusAutorizacao == "Autorizado" && DateTime.TryParse(data, out DateTime dataInformada)){
+                return ListaDeTransacao.Where(t => t.GetHoraPagamento().Date == dataInformada.Date).ToList();
             }
 
             return new List<Transacao>();
+        }
+
+        public List<Transacao> ListarTransacaoPorPeriodo(string dataInicio, string dataFim)
+        {
+            List<Transacao> ListaDeTransacao = ListarTodas();
+            List<Transacao> transacoesNoPeriodo = new List<Transacao>();
+
+            string statusAutorizacao = ValidadorService.PodeConsultarTransacaoDoPeriodo(dataInicio, dataFim);
+
+            if (statusAutorizacao == "Autorizado" && DateTime.TryParse(dataInicio, out DateTime inicio) && DateTime.TryParse(dataFim, out DateTime fim))
+            {
+                foreach (Transacao transacao in ListaDeTransacao)
+                {
+                    DateTime dataTransacao = transacao.GetHoraPagamento().Date;
+                    if (dataTransacao >= inicio && dataTransacao <= fim)
+                    {
+                        transacoesNoPeriodo.Add(transacao);
+                    }
+                }
+            }
+
+            return transacoesNoPeriodo;
         }    
 
         public List<Transacao> ListarTransacoesPorPlaca(string placa){
@@ -74,6 +96,19 @@ namespace DesafioFundamentos.Services
 
             decimal faturamentoDoDia = 0;
             List<Transacao> listaTransacoesDoDia = ListarTransacaoPorData(data);
+
+            foreach (Transacao t in listaTransacoesDoDia)
+            {
+                faturamentoDoDia += t.GetValorPagamento();
+            }
+            
+            return faturamentoDoDia;
+        }
+
+        public decimal ConsultarFaturamentoPorPeriodo(string dataInicio, string dataFim){
+
+            decimal faturamentoDoDia = 0;
+            List<Transacao> listaTransacoesDoDia = ListarTransacaoPorPeriodo(dataInicio, dataFim);
 
             foreach (Transacao t in listaTransacoesDoDia)
             {
