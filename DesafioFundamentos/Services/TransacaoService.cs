@@ -11,9 +11,11 @@ namespace DesafioFundamentos.Services
     public class TransacaoService
     {
         private TransacaoRepository TransacaoRepository;
+        private ValidadorService ValidadorService;
 
         public TransacaoService(){
             this.TransacaoRepository = TransacaoRepository.GetInstancia();
+            this.ValidadorService = new ValidadorService();
         }
 
         public TransacaoRepository GetTransacaoRepository(){
@@ -39,6 +41,19 @@ namespace DesafioFundamentos.Services
                 return transacoesDaData;
             }
 
+            return new List<Transacao>();
+        }    
+
+        public List<Transacao> ListarTransacoesPorPlaca(string placa){
+            string statusAutorizacao = ValidadorService.PodeConsultarTransacaoDaPlaca(placa);
+
+            if(statusAutorizacao == "Autorizado") {
+                List<Transacao> ListaDeTransacao = ListarTodas();
+                List<Transacao> transacoesDaPlaca = ListaDeTransacao.Where(t => t.GetVeiculo().GetPlaca().ToUpper() == placa.ToUpper()).ToList();
+
+                return transacoesDaPlaca;
+            }
+            
             return new List<Transacao>();
         }
 
