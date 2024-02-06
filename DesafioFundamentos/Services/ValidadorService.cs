@@ -2,6 +2,7 @@ using DesafioFundamentos.Models.Classes;
 using DesafioFundamentos.Models.Enums;
 using System.Text.RegularExpressions;
 using DesafioFundamentos.Exceptions;
+using DesafioFundamentos.Repositories;
 
 namespace DesafioFundamentos.Services
 {
@@ -53,12 +54,12 @@ namespace DesafioFundamentos.Services
             
             if(PlacaNulaOuVazia(veiculo.GetPlaca()))
             {
-                throw new VeiculoInvalidoException("Placa nula ou vazia não pode ser estacionada.");
+                throw new PlacaInvalidaException("Placa nula ou vazia não pode ser estacionada.");
             }
 
             if(!PlacaEhValida(veiculo.GetPlaca()))
             {
-                throw new VeiculoInvalidoException("Placa inválida.");
+                throw new PlacaInvalidaException("Placa inválida.");
             }
         }
 
@@ -104,7 +105,7 @@ namespace DesafioFundamentos.Services
                 return false;
             }
 
-            return estacionamento.GetVagasOcupadas().Any(x => x.GetPlaca().ToUpper() == veiculo.GetPlaca().ToUpper());            
+            return estacionamento.GetVagasOcupadas().Any(v => v.GetPlaca().ToUpper() == veiculo.GetPlaca().ToUpper());            
         }        
 
         public void PodeRealizarPagamento(Veiculo veiculo, decimal valorAPagar, FormaPagamento formaPagamento, Estacionamento estacionamento){
@@ -128,6 +129,24 @@ namespace DesafioFundamentos.Services
             {
                 throw new VeiculoInvalidoException("Veiculo excedeu limite de saída.");
             }
-        }        
+        }
+
+        public string PodeConsultarTransacaoDaPlaca(string placa) {
+            if(PlacaNulaOuVazia(placa))
+            {
+                throw new VeiculoInvalidoException("Placa nula ou vazia.");
+            }
+
+            if(!PlacaEhValida(placa))
+            {
+                throw new VeiculoInvalidoException("Placa inválida.");
+            }
+
+            if(!TransacaoRepository.GetInstancia().GetTransacoes().Any(t => t.GetVeiculo().GetPlaca().ToUpper() == placa.ToUpper())){
+                throw new VeiculoInvalidoException($"Placa: {placa} não realizou transação");
+            }
+
+            return "Autorizado";
+        }      
     }
 }
