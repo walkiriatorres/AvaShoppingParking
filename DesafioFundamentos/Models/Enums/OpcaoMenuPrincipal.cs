@@ -12,6 +12,7 @@ namespace DesafioFundamentos.Models.Enums
         ExibirTransacaoPorData = 8,   
         ExibirFaturamentoTotal = 9,
         ExibirFaturamentoPorData = 10,
-        Encerrar = 100
+        Encerrar = 100,
+        ExibirTransacaoPorPlaca = 105
     }
 }
