@@ -1,6 +1,6 @@
 using DesafioFundamentos.Exceptions;
 using DesafioFundamentos.Models.Classes;
-using DesafioFundamentos.Models.Enum;
+using DesafioFundamentos.Models.Enums;
 using DesafioFundamentos.Services;
 
 namespace DesafioFundamentosTestes.Services

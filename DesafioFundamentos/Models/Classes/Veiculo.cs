@@ -13,10 +13,12 @@ namespace DesafioFundamentos.Models.Classes
         {
             this.Id = Guid.NewGuid();
             this.Placa = placa;
-            // this.Entrada = DateTime.Now;
-            // this.LimiteSaida = DateTime.Now.AddMinutes(20);
-            this.Entrada = new DateTime(2024, 1, 31, 18, 24, 0);
-            this.LimiteSaida = new DateTime(2024, 1, 31, 18, 24, 0).AddMinutes(20);
+            this.Entrada = DateTime.Now;
+            this.LimiteSaida = DateTime.Now.AddMinutes(20);
+            /*
+            this.Entrada = new DateTime(2024, 2, 5, 23, 50, 0);
+            this.LimiteSaida = new DateTime(2024, 2, 5, 23, 50, 0).AddMinutes(20);
+            */
         }        
 
         public Guid GetId(){

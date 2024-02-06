@@ -1,5 +1,5 @@
 using DesafioFundamentos.Models.Classes;
-using DesafioFundamentos.Models.Enum;
+using DesafioFundamentos.Models.Enums;
 using DesafioFundamentos.Repositories;
 
 namespace DesafioFundamentosTestes.Repositories
