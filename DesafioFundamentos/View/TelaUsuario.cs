@@ -40,7 +40,7 @@ namespace DesafioFundamentos.View
                 Console.Clear();
                 Console.WriteLine("Digite a sua opção:");
                 Console.WriteLine("1 - Exibir Dados do Estacionamento");
-                Console.WriteLine("2 - Cadastrar veículo");
+                Console.WriteLine("2 - Estacionar veículo");
                 Console.WriteLine("3 - Consultar valor a pagar");
                 Console.WriteLine("4 - Pagar");
                 Console.WriteLine("5 - Remover veículo");
@@ -50,6 +50,7 @@ namespace DesafioFundamentos.View
                 Console.WriteLine("9 - Consultar Faturamento Acumulado");
                 Console.WriteLine("10 - Consultar Faturamento Por Data");
                 Console.WriteLine("100 - Encerrar");
+                Console.WriteLine("105 - Listar Transacoes Por Placa");
 
                 if (Enum.TryParse(Console.ReadLine(), out OpcaoMenuPrincipal opcao))
                 {
@@ -84,14 +85,17 @@ namespace DesafioFundamentos.View
                             break;
                         case OpcaoMenuPrincipal.ExibirFaturamentoPorData:
                             ExibirFaturamentoPorData();
-                            break;
+                            break;                        
                         case OpcaoMenuPrincipal.Encerrar:
-                            ConfirmarEncerramentoDoPrograma();
-                            break;
+                            ExibirMenuConfirmacaoEncerramento();
+                            break;                        
+                        case OpcaoMenuPrincipal.ExibirTransacaoPorPlaca:
+                            ListarTransacoesPorPlaca();
+                            break;                        
                         default:
                             Console.Clear();
                             Console.WriteLine("Opção inválida");
-                            break;
+                            break;                                                    
                     }
                 }
                 else
@@ -106,7 +110,7 @@ namespace DesafioFundamentos.View
             }
         }
 
-        public void ConfirmarEncerramentoDoPrograma()
+        public void ExibirMenuConfirmacaoEncerramento()
         {
             bool opcaoConfirmacao = true;
             while (opcaoConfirmacao)
@@ -201,7 +205,14 @@ namespace DesafioFundamentos.View
 
                 decimal valorAPagar = estacionamentoService.ConsultarValorPagamento(veiculo);
 
-                Console.Write($"\nO valo a pagar é R$: {valorAPagar}");
+                if (valorAPagar > 0)
+                {
+                    Console.WriteLine($"O valor a pagar é R$: {valorAPagar}.");
+                }
+                else
+                {
+                    Console.WriteLine($"Não há valor a pagar. Permanência liberada até {veiculo.GetLimiteSaida()}");
+                } 
             }
             catch (Exception ex)
             {
@@ -209,6 +220,25 @@ namespace DesafioFundamentos.View
             }
         }
 
+        public FormaPagamento ExibirMenuPagamento()
+        {
+            Console.WriteLine("Informe o método de pagamento:");
+            Console.WriteLine("1 - Cartão de Débito");
+            Console.WriteLine("2 - Cartão de Crédito");
+            Console.WriteLine("3 - Dinheiro");
+            Console.WriteLine("4 - Pix");
+
+            string opcaoPagamento = Console.ReadLine();
+            if (Enum.TryParse(opcaoPagamento, out FormaPagamento formaPagamento))
+            {
+                return formaPagamento;
+            }
+            else
+            {
+                throw new FormaPagamentoInvalidaException("Forma de pagamento inválida");
+            }
+        }
+        
         public void ReceberPagamento(Estacionamento es)
         {
             try
@@ -230,17 +260,20 @@ namespace DesafioFundamentos.View
                     return;
                 }
 
-                decimal valorAPagar = estacionamentoService.ConsultarValorPagamento(veiculo);
-
-                Console.WriteLine($"Preço a pagar é R$: {valorAPagar}.");
+                decimal valorAPagar = estacionamentoService.ConsultarValorPagamento(veiculo);                
 
                 if (valorAPagar > 0)
                 {
+                    Console.WriteLine($"Preço a pagar é R$: {valorAPagar}.");
+                    
                     FormaPagamento formaPagamento = ExibirMenuPagamento();
                     estacionamentoService.RealizarPagamento(veiculo, valorAPagar, formaPagamento);
+                    Console.WriteLine($"Pagamento Recebido. Permanência liberada até {veiculo.GetLimiteSaida()}");
                 }
-
-                Console.WriteLine($"Pagamento Recebido. Permanência liberada até {veiculo.GetLimiteSaida()}");
+                else
+                {
+                    Console.WriteLine($"Não há valor a pagar. Permanência liberada até {veiculo.GetLimiteSaida()}");
+                }                
             }
             catch (Exception ex)
             {
@@ -327,6 +360,12 @@ namespace DesafioFundamentos.View
         public void ExibirTransacaoPorData()
         {
             TransacaoService transacaoService = new TransacaoService();
+            
+            if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
+            {
+                Console.WriteLine("Até o momento não foram realizadas transações.");
+                return;
+            }
 
             Console.WriteLine("Digite a data desejada, use o formato DD/MM/AAAA: ");
             string data = Console.ReadLine();
@@ -335,18 +374,11 @@ namespace DesafioFundamentos.View
             {
                 List<Transacao> ListaDeTransacao = transacaoService.ListarTransacaoPorData(data);
 
-                if (ListaDeTransacao.Count() == 0)
+                Console.WriteLine($"As transações realizadas em {data} foram:");
+                foreach (Transacao t in ListaDeTransacao)
                 {
-                    Console.WriteLine("Até o momento não foram realizadas transações.");
-                }
-                else
-                {
-                    Console.WriteLine($"As transações realizadas em {data} foram:");
-                    foreach (Transacao t in ListaDeTransacao)
-                    {
-                        Console.WriteLine($"\nId: {t.GetId()} \nPlaca: {t.GetVeiculo().GetPlaca()} \nForma Pagamento: {t.GetFormaPagamento()} \nValor Pago R$: {t.GetValorPagamento()} \nData e Hora do Pagamento: {t.GetHoraPagamento()}");
-                    }
-                }
+                    Console.WriteLine($"\nId: {t.GetId()} \nPlaca: {t.GetVeiculo().GetPlaca()} \nForma Pagamento: {t.GetFormaPagamento()} \nValor Pago R$: {t.GetValorPagamento()} \nData e Hora do Pagamento: {t.GetHoraPagamento()}");
+                }                
             }
             else
             {
@@ -354,27 +386,61 @@ namespace DesafioFundamentos.View
             }
         }
 
-        public void ExibirFaturamentoTotal()
-        {
-            TransacaoService transacaoService = new TransacaoService();
-            decimal faturamentoAcumulado = transacaoService.ConsultarFaturamentoAcumulado();
+        public void ListarTransacoesPorPlaca(){
+            
+            try
+            {
+                TransacaoService transacaoService = new TransacaoService();
+                
+                if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
+                {
+                    Console.WriteLine("Até o momento não foram realizadas transações.");
+                    return;
+                }
+                string placa = CapturarPlaca();                
+                
+                List<Transacao> listaDeTransacao = transacaoService.ListarTransacoesPorPlaca(placa);
+                int quantidadeDeTransacoes = listaDeTransacao.Count();
 
-            if (faturamentoAcumulado <= 0)
-            {
-                Console.WriteLine("Até o momento não foram realizadas transações.");
+                Console.WriteLine($"A {placa} realizou {quantidadeDeTransacoes} transações, sendo estas:");
+                foreach (Transacao t in listaDeTransacao)
+                {
+                    Console.WriteLine($"\nId: {t.GetId()} \nPlaca: {t.GetVeiculo().GetPlaca()} \nForma Pagamento: {t.GetFormaPagamento()} \nValor Pago R$: {t.GetValorPagamento()} \nData e Hora do Pagamento: {t.GetHoraPagamento()}");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine($"O faturamento acumulado é: {faturamentoAcumulado}");
+                Console.WriteLine(ex.Message);
             }
         }
 
-        public void ExibirFaturamentoPorData()
+        public void ExibirFaturamentoTotal()
         {
+            TransacaoService transacaoService = new TransacaoService();
+            
+            if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
+            {
+                Console.WriteLine("Até o momento não foram realizadas transações.");
+                return;
+            }            
+            
+            decimal faturamentoTotal = transacaoService.ConsultarFaturamentoAcumulado();
+
+            Console.WriteLine($"O faturamento acumulado é: {faturamentoTotal}");
+        }
+
+        public void ExibirFaturamentoPorData()
+        {   
+            TransacaoService transacaoService = new TransacaoService();
+
+            if(transacaoService.GetTransacaoRepository().GetTransacoes().Count() == 0)
+            {
+                Console.WriteLine("Até o momento não foram realizadas transações.");
+                return;
+            }
+
             Console.WriteLine("Digite a data desejada, use o formato DD/MM/AAAA: ");
             string data = Console.ReadLine();
-
-            TransacaoService transacaoService = new TransacaoService();
 
             if (DateTime.TryParse(data, out DateTime dataInformada))
             {
@@ -385,25 +451,6 @@ namespace DesafioFundamentos.View
             {
                 Console.WriteLine("Formato de data inválido. Certifique-se de usar o formato DD/MM/AAAA.");
             }
-        }
-
-        public FormaPagamento ExibirMenuPagamento()
-        {
-            Console.WriteLine("Informe o método de pagamento:");
-            Console.WriteLine("1 - Cartão de Débito");
-            Console.WriteLine("2 - Cartão de Crédito");
-            Console.WriteLine("3 - Dinheiro");
-            Console.WriteLine("4 - Pix");
-
-            string opcaoPagamento = Console.ReadLine();
-            if (Enum.TryParse(opcaoPagamento, out FormaPagamento formaPagamento))
-            {
-                return formaPagamento;
-            }
-            else
-            {
-                throw new FormaPagamentoInvalidaException("Forma de pagamento inválida");
-            }
-        }
+        }     
     }
 }
