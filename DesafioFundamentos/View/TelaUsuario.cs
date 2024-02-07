@@ -94,35 +94,6 @@ namespace DesafioFundamentos.View
             }
         }
 
-        public void ExibirMenuConfirmacaoEncerramento()
-        {
-            bool opcaoConfirmacao = true;
-            while (opcaoConfirmacao)
-            {
-                Console.Clear();
-                Console.WriteLine("Deseja encerrar o programa?");
-                Console.WriteLine("1 - Encerrar Programa");
-                Console.WriteLine("2 - Voltar ao Menu Anterior");
-
-                if (Enum.TryParse(Console.ReadLine(), out OpcaoMenuConfirmacaoEncerramento opcao))
-                {
-                    switch (opcao)
-                    {
-                        case OpcaoMenuConfirmacaoEncerramento.EncerrarPrograma:
-                        Console.WriteLine("O programa se encerrou");
-                            Environment.Exit(0);
-                            break;
-                        case OpcaoMenuConfirmacaoEncerramento.RetornarMenu:
-                            opcaoConfirmacao = false;
-                            break;
-                        default:
-                            Console.Clear();
-                            break;
-                    }
-                }
-            }
-        }
-
         public void ExibirMenuGerencial()
         {
             bool opcaoConfirmacao = true;
@@ -191,6 +162,35 @@ namespace DesafioFundamentos.View
                 Console.ReadLine();                
             }
         }
+        public void ExibirMenuConfirmacaoEncerramento()
+        {
+            bool opcaoConfirmacao = true;
+            while (opcaoConfirmacao)
+            {
+                Console.Clear();
+                Console.WriteLine("Deseja encerrar o programa?");
+                Console.WriteLine("1 - Encerrar Programa");
+                Console.WriteLine("2 - Voltar ao Menu Anterior");
+
+                if (Enum.TryParse(Console.ReadLine(), out OpcaoMenuConfirmacaoEncerramento opcao))
+                {
+                    switch (opcao)
+                    {
+                        case OpcaoMenuConfirmacaoEncerramento.EncerrarPrograma:
+                        Console.WriteLine("O programa se encerrou");
+                            Environment.Exit(0);
+                            break;
+                        case OpcaoMenuConfirmacaoEncerramento.RetornarMenu:
+                            opcaoConfirmacao = false;
+                            break;
+                        default:
+                            Console.Clear();
+                            break;
+                    }
+                }
+            }
+        }
+        
         public string CapturarPlaca()
         {
             Console.WriteLine("Digite a placa do veículo: ");

@@ -8,6 +8,28 @@ Após o pagamento, o horário de limite de saída será atualizado, garantindo u
 
 ## Diagrama de Classes:
 ![Diagrama de Classe](Imagens/DiagramaAvaShoppingParking.png)
+![Pacote View](Imagens/View.png)
+![Pacote Service](Imagens/Service.png)
+![Pacote Repository](Imagens/Repository.png)
+![Pacote Models](Imagens/Models.png)
+
+## Funcionalidades:
+### Menu Principal:
+- Exibir dados do estacionamento
+- Estacionar Veículo
+- Consultar Valor a pagar
+- Pagar
+- Remover Veículo
+- Listar veículos Estacionados
+
+### Menu Gerencial:
+- **Listar Transacoes**: exibe todas as transações realizadas;
+- **Listar Transacoes Por Data**: solicita uma data e exibe as trasações realizadas na data informada;
+- **Listar Transacoes Por Periodo**: solicita um período (datas inicial e final) e exibe as trasações realizadas no período informado;
+- **Listar Transacoes Por Placa**: solicita uma placa e exibe as trasações realizadas para placa informada;
+- **Consultar Faturamento Total**: exibe a soma dos valores pagos em todas as transações;
+- **Consultar Faturamento Por Data**: solicita uma data e exibe a soma dos valores pagos na data informada;
+- **Consultar Faturamento Por Periodo**: solicita um período (datas inicial e final) e exibe a soma dos valores pagos no período informado;
 
 ## Instalando o Sistema
 ### Requisitos:
@@ -15,10 +37,10 @@ Após o pagamento, o horário de limite de saída será atualizado, garantindo u
 - IDE ou Editor de Texto que suporte .NET
 
 ### Clone o repositório:
-git clone https://github.com/walkiriatorres/AvaShoppingParking.git
+- git clone https://github.com/walkiriatorres/AvaShoppingParking.git
 
 ### Acesse o Diretório:
-cd DesafioFundamentos
+- cd DesafioFundamentos
 
 ### Execute o programa:
-dotnet run
+- dotnet run

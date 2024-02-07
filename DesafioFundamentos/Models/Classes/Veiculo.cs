@@ -12,9 +12,9 @@ namespace DesafioFundamentos.Models.Classes
         public Veiculo(string placa)
         {
             this.Id = Guid.NewGuid();
-            this.Placa = placa;            
+            this.Placa = placa;     
             this.Entrada = DateTime.Now;
-            this.LimiteSaida = DateTime.Now.AddMinutes(20);            
+            this.LimiteSaida = DateTime.Now.AddMinutes(20);          
         }        
 
         public Guid GetId(){
