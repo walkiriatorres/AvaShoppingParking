@@ -7,7 +7,7 @@ Cada veículo possui um limite de tolerância de permanência de 20 minutos a pa
 Após o pagamento, o horário de limite de saída será atualizado, garantindo uma tolerância de saída mínima de 15 minutos para que o veículo tenha tempo hábil de se locomover até a cancela. Desta forma, caso o pagamento seja feito a menos de 15 minutos até a cobrança da próxima hora, o limite de saída será acrescido de tempo adicional até completar os 15 minutos necessários.
 
 ## Diagrama de Classes:
-![Diagrama de Classe](Imagens/DiagramaAvaShoppingParking.png)
+![Diagrama de Classe](Imagens/Diagrama_De_Classe/DiagramaAvaShoppingParking.png)
 
 ## Funcionalidades:
 ### Menu Configuração:
@@ -47,3 +47,22 @@ Após o pagamento, o horário de limite de saída será atualizado, garantindo u
 
 ### Execute o programa:
 - dotnet run
+
+## Navegando no Ava Shopping Parking:
+## Navegando pelos Menus:
+![Menu Configuração e Menu Principal](Imagens/Aplicacao/Menus/1_Menu_Configuracao_2_Menu_Principal.png)
+![Menu Gerencial e Menu Encerramento](Imagens/Aplicacao/Menus/3_Menu_Gerencial_4_Menu_Encerramento.png)
+## Navegando no Menu Principal:
+![Exibir dados e Adicionar Veículo](Imagens/Aplicacao/Menu_Principal/2.1_Exibir_dados_2.2_Adicionar_Veiculo.png)
+![Consultar Valor A Pagar](Imagens/Aplicacao/Menu_Principal/2.3_Consultar_Valor_A_Pagar.png)
+![Pagar Estacionamento](Imagens/Aplicacao/Menu_Principal/2.4_Pagar.png)
+![Remover Veiculo Listar Veiculos Estacionados](Imagens/Aplicacao/Menu_Principal/2.5_Remover_Veiculo_2.6_Listar_Veiculos_Estacionados.png)
+## Navegando no Menu Gerencial:
+![Listar Todas Transacoes](Imagens/Aplicacao/Menu_Gerencial/3.1_Listar_Transacoes.png)
+![Listar Transacoes Por Data](Imagens/Aplicacao/Menu_Gerencial/3.2_Listar_Transacoes_Por_data.png)
+![Listar Transacoes Por Periodo](Imagens/Aplicacao/Menu_Gerencial/3.1_Listar_Transacoes.png)
+![Listar Transacoes Por Placa](Imagens/Aplicacao/Menu_Gerencial/3.4_Listar_Transacoes_Por_Placa.png)
+![Consultar Faturamento Total](Imagens/Aplicacao/Menu_Gerencial/3.5_Consultar_Faturamento_Total.png)
+![Consultar Faturamento Por Data](Imagens/Aplicacao/Menu_Gerencial/3.6_Consultar_Faturamento_Por_Data.png)
+![Consultar Faturamento Por Periodo](Imagens/Aplicacao/Menu_Gerencial/3.7_Consultar_Faturamento_Por_Periodo.png)
+

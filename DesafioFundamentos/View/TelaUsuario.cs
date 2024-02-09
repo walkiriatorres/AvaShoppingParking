@@ -228,7 +228,7 @@ namespace DesafioFundamentos.View
 
                 Console.WriteLine($"Entrada liberada.");
             }
-            catch (VeiculoInvalidoException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
