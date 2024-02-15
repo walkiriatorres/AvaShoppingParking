@@ -2,9 +2,31 @@
 
 AvaShoppingPark é um sistema de gerenciamento de estacionamento de um shopping desenvolvido em C#.
 
-Serão solicitados ao usuário dados para configurar o estacionamento como: a quantidade de vagas a serem disponibilizadas e os preços da 1ª hora e das horas adicionais. Neste sistema o pagamento deve ser realizado antes da remoção do veículo, que estará condicionada ao horário limite de saída. 
-Cada veículo possui um limite de tolerância de permanência de 20 minutos a partir da sua entrada, não sendo necessário realizar pagamento neste período. Caso a permanência no estacionamento exceda o tempo de 20 minutos, deverá realizar o pagamento referente ao tempo estacionado, que é cobrado pela 1ª hora + hora ou fração adicional.
-Após o pagamento, o horário de limite de saída será atualizado, garantindo uma tolerância de saída mínima de 15 minutos para que o veículo tenha tempo hábil de se locomover até a cancela. Desta forma, caso o pagamento seja feito a menos de 15 minutos até a cobrança da próxima hora, o limite de saída será acrescido de tempo adicional até completar os 15 minutos necessários.
+O sistema solicitará ao usuário dados para configurar o estacionamento: 
+1. **quantidade de vagas** a serem disponibilizadas;
+2. **preço da 1ª hora**;
+3. **preço da hora/fração adicional**
+
+Deverá permitir estacionar veículos com placa validada conforme padrões utilizados no Brasil, por exemplo: **ABC1C34** e **ABC1234**.
+
+O valor a pagar deverá ser calculado conforme os preços fornecidos no cadastro do estacionamento.
+O estacionamento permite uma tolerância de permanência de 20 minutos a partir da entrada, período em que não será necessário realizar pagamento.
+Para permanência excedente a este período, será cobrado o preço calculado por: preço da 1ª hora + (preço da hora adicional * quantidade de hora/fração adicional).
+
+Deverá ser garantida uma tolerância de saída mínima de 15 minutos para que o veículo tenha tempo hábil de se locomover até a cancela.
+Então caso seja necessário realizar o pagamento e este seja feito a menos de 15 minutos até a cobrança da próxima hora, o limite de saída será acrescido de tempo adicional até completar os 15 minutos necessários para saída do veículo.
+
+A remoção do veículo do estacionamento está condicionada ao pagamento deste.
+Caso o veículo realize o pagamento, mas e permaneça estacionado após o tempo limite, deverá realizar o pagamento do valor excedente para ter sua saída autorizada.
+
+No Menu Principal será possível ter acesso ao relatório:
+- **Veículos Estacionados**: mostra quais veículos estão estacionados naquele momento
+
+No Menu Gerencial será possível ter acesso a relatórios referente a transações:
+- **Consultar Transações**: mostra quais transações foram realizadas, sendo ainda possível pesquisar por data, período ou placa.
+- **Consultar Faturamento**: mostra total faturado, sendo ainda possível pesquisar por data ou período.
+
+Ao solicitar sair do sistema, deverá ser exibida uma mensagem de confirmação de saída, de forma a prevenir saídas acidentais.
 
 ## Diagrama de Classes:
 ![Diagrama de Classe](Imagens/Diagrama_De_Classe/DiagramaAvaShoppingParking.png)
@@ -36,28 +58,34 @@ Após o pagamento, o horário de limite de saída será atualizado, garantindo u
 
 ## Instalando o Sistema
 ### Requisitos:
-- NET6.0 (Caso não possua, link para download: [.NET 6.0](https://dotnet.microsoft.com/pt-br/download/dotnet/6.0);
-- IDE ou Editor de Texto que suporte .NET
+- [.NET 6.0](https://dotnet.microsoft.com/pt-br/download/dotnet/6.0);
+- IDE ou Editor de Texto que suporte .NET: [VS Code](https://code.visualstudio.com/download) | [Visual Studio](https://visualstudio.microsoft.com/pt-br/downloads/)
 
 ### Clone o repositório:
-- git clone https://github.com/walkiriatorres/AvaShoppingParking.git
+```
+git clone https://github.com/walkiriatorres/AvaShoppingParking.git
+```
 
 ### Acesse o Diretório:
-- cd DesafioFundamentos
+```
+cd DesafioFundamentos
+```
 
 ### Execute o programa:
-- dotnet run
+```
+ dotnet run
+```
 
 ## Navegando no Ava Shopping Parking:
-## Navegando pelos Menus:
+### Navegando pelos Menus:
 ![Menu Configuração e Menu Principal](Imagens/Aplicacao/Menus/1_Menu_Configuracao_2_Menu_Principal.png)
 ![Menu Gerencial e Menu Encerramento](Imagens/Aplicacao/Menus/3_Menu_Gerencial_4_Menu_Encerramento.png)
-## Navegando no Menu Principal:
+### Navegando no Menu Principal:
 ![Exibir dados e Adicionar Veículo](Imagens/Aplicacao/Menu_Principal/2.1_Exibir_dados_2.2_Adicionar_Veiculo.png)
 ![Consultar Valor A Pagar](Imagens/Aplicacao/Menu_Principal/2.3_Consultar_Valor_A_Pagar.png)
 ![Pagar Estacionamento](Imagens/Aplicacao/Menu_Principal/2.4_Pagar.png)
 ![Remover Veiculo Listar Veiculos Estacionados](Imagens/Aplicacao/Menu_Principal/2.5_Remover_Veiculo_2.6_Listar_Veiculos_Estacionados.png)
-## Navegando no Menu Gerencial:
+### Navegando no Menu Gerencial:
 ![Listar Todas Transacoes](Imagens/Aplicacao/Menu_Gerencial/3.1_Listar_Transacoes.png)
 ![Listar Transacoes Por Data](Imagens/Aplicacao/Menu_Gerencial/3.2_Listar_Transacoes_Por_data.png)
 ![Listar Transacoes Por Periodo](Imagens/Aplicacao/Menu_Gerencial/3.1_Listar_Transacoes.png)
