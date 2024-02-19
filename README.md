@@ -1,30 +1,55 @@
 # AVA SHOPPING PARKING
 
-AvaShoppingPark é um sistema de gerenciamento de estacionamento de um shopping desenvolvido em C#.
+AvaShoppingPark é um sistema de gerenciamento de estacionamento de um shopping, é uma nova versão do [AvaParkEstacionamento](https://github.com/walkiriatorres/AvaParkEstacionamento).
 
-O sistema solicitará ao usuário dados para configurar o estacionamento: 
+📌 **O Projeto**
+
+◾ Desenvolvido em .NET, adota o padrão MVC. A modelagem de domínio aderente ao SRP (SOLID);
+
+◾ O repositório se comportará como o banco de dados da aplicação, persistindo transações e veículos. Segue o Singleton, garantindo que a aplicação esteja acessando o mesmo repositório;
+
+◾ Foram desenvolvidas validações e exceções personalizadas para a camada de lógica do negócio;
+
+◾ O sistema conta ainda com a cobertura de testes unitários utilizando Xunit.
+
+💡 **As Melhorias**
+
+✔ Nesta versão adicionei a função Pagar e deverá ser realizado o pagamento do ticket para saída do estacionamento, que é autorizada conforme o horário limite de saída.
+
+✔ Implementei menus interativos para aprimorar a experiência de navegação dos usuários no sistema, incluindo uma confirmação de encerramento da aplicação, de forma a prevenir saídas acidentais.
+
+✔ Introduzi Enums para representar os diferentes tipos de opções dos menus, simplificando a manutenção do código, permitindo a adição ou modificação de itens de forma rápida.
+
+💻 **Menu de Configuração**
+
+Serão solicitados ao usuário dados para configurar o estacionamento:
 1. **quantidade de vagas** a serem disponibilizadas;
 2. **preço da 1ª hora**;
 3. **preço da hora/fração adicional**
 
-Deverá permitir estacionar veículos com placa validada conforme padrões utilizados no Brasil, por exemplo: **ABC1C34** e **ABC1234**.
+💻 **Menu Principal:**
 
-O valor a pagar deverá ser calculado conforme os preços fornecidos no cadastro do estacionamento.
-O estacionamento permite uma tolerância de permanência de 20 minutos a partir da entrada, período em que não será necessário realizar pagamento.
-Para permanência excedente a este período, será cobrado o preço calculado por: preço da 1ª hora + (preço da hora adicional * quantidade de hora/fração adicional).
+Será possível estacionar, consultar valor, pagar e remover veículo, além de acesso ao relatório de veículos estacionados:
 
-Deverá ser garantida uma tolerância de saída mínima de 15 minutos para que o veículo tenha tempo hábil de se locomover até a cancela.
-Então caso seja necessário realizar o pagamento e este seja feito a menos de 15 minutos até a cobrança da próxima hora, o limite de saída será acrescido de tempo adicional até completar os 15 minutos necessários para saída do veículo.
+1. Deverá permitir estacionar veículos com placa validada conforme padrões utilizados no Brasil:
+     - **Padrão Brasileiro** (**ABC1234**): Padrão utilizado desde 2011 e ainda aceito, devido a não obrigatoriedade do padrão mercosul para todos veículos;
+     - **Padrão Mercosul** (**ABC1C34**): Em 2020 tornou-se brigatório para novos veículos no Brasil, em comparação ao padrão anterior traz uma letra no lugar do segundo número.
 
-A remoção do veículo do estacionamento está condicionada ao pagamento deste.
-Caso o veículo realize o pagamento, mas e permaneça estacionado após o tempo limite, deverá realizar o pagamento do valor excedente para ter sua saída autorizada.
+2. O valor a pagar deverá ser calculado conforme os preços fornecidos no cadastro do estacionamento. O estacionamento permite uma tolerância de permanência de 20 minutos a partir da entrada, período em que não será necessário realizar pagamento. Para permanência excedente a este período, será cobrado o preço calculado por: preço da 1ª hora + (preço da hora adicional * quantidade de hora/fração adicional).
 
-No Menu Principal será possível ter acesso ao relatório:
-- **Veículos Estacionados**: mostra quais veículos estão estacionados naquele momento
+3. Deverá ser garantida uma tolerância de saída mínima de 15 minutos para que o veículo tenha tempo hábil de se locomover até a cancela. Então caso seja necessário realizar o pagamento e este seja feito a menos de 15 minutos até a cobrança da próxima hora, o limite de saída será acrescido de tempo adicional até completar os 15 minutos necessários para saída do veículo.
 
-No Menu Gerencial será possível ter acesso a relatórios referente a transações:
-- **Consultar Transações**: mostra quais transações foram realizadas, sendo ainda possível pesquisar por data, período ou placa.
-- **Consultar Faturamento**: mostra total faturado, sendo ainda possível pesquisar por data ou período.
+4. A remoção do veículo do estacionamento está condicionada ao pagamento deste. Caso o veículo realize o pagamento, mas e permaneça estacionado após o tempo limite, deverá realizar o pagamento do valor excedente para ter sua saída autorizada.
+
+5. **Veículos Estacionados**: mostra quais veículos estão estacionados naquele momento.
+
+💻 **Menu Gerencial**
+
+Será possível ter acesso a relatórios referente a transações:
+1. **Consultar Transações**: mostra quais transações foram realizadas, sendo ainda possível pesquisar por data, período ou placa.
+2. **Consultar Faturamento**: mostra total faturado, sendo ainda possível pesquisar por data ou período.
+
+💻 **Menu de Confirmação de Encerramento:**
 
 Ao solicitar sair do sistema, deverá ser exibida uma mensagem de confirmação de saída, de forma a prevenir saídas acidentais.
 
